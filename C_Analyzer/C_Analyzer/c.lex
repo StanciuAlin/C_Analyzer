@@ -7,7 +7,7 @@ IS			(u|U|l|L)*
 
 %{
 #include <stdio.h>
-#include "symbols.h"
+#include "c.tab.h"
 
 void count();
 %}
@@ -36,7 +36,7 @@ void count();
 "int"			{ count(); return(INT); }
 "long"			{ count(); return(LONG); }
 "register"		{ count(); return(REGISTER); }
-"restrict"      { count(); return(RESTRICT); }
+"restrict"      { count(); return(RESTRICT);	}
 "return"		{ count(); return(RETURN); }
 "short"			{ count(); return(SHORT); }
 "signed"		{ count(); return(SIGNED); }
