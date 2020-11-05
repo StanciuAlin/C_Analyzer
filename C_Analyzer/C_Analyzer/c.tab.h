@@ -39,7 +39,7 @@
 # define YY_YY_C_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
-# define YYDEBUG 0
+# define YYDEBUG 1
 #endif
 #if YYDEBUG
 extern int yydebug;
@@ -100,18 +100,25 @@ extern int yydebug;
     UNION = 301,                   /* UNION  */
     ENUM = 302,                    /* ENUM  */
     ELLIPSIS = 303,                /* ELLIPSIS  */
-    CASE = 304,                    /* CASE  */
-    DEFAULT = 305,                 /* DEFAULT  */
-    IF = 306,                      /* IF  */
-    ELSE = 307,                    /* ELSE  */
-    SWITCH = 308,                  /* SWITCH  */
-    WHILE = 309,                   /* WHILE  */
-    DO = 310,                      /* DO  */
-    FOR = 311,                     /* FOR  */
-    GOTO = 312,                    /* GOTO  */
-    CONTINUE = 313,                /* CONTINUE  */
-    BREAK = 314,                   /* BREAK  */
-    RETURN = 315                   /* RETURN  */
+    RESTRICT = 304,                /* RESTRICT  */
+    _BOOL = 305,                   /* _BOOL  */
+    _COMPLEX = 306,                /* _COMPLEX  */
+    _IMAGINARY = 307,              /* _IMAGINARY  */
+    INLINE = 308,                  /* INLINE  */
+    CASE = 309,                    /* CASE  */
+    DEFAULT = 310,                 /* DEFAULT  */
+    IF = 311,                      /* IF  */
+    ELSE = 312,                    /* ELSE  */
+    SWITCH = 313,                  /* SWITCH  */
+    WHILE = 314,                   /* WHILE  */
+    DO = 315,                      /* DO  */
+    FOR = 316,                     /* FOR  */
+    GOTO = 317,                    /* GOTO  */
+    CONTINUE = 318,                /* CONTINUE  */
+    BREAK = 319,                   /* BREAK  */
+    RETURN = 320,                  /* RETURN  */
+    COMM_MULTI_LINE = 321,         /* COMM_MULTI_LINE  */
+    COMM_UNI_LINE = 322            /* COMM_UNI_LINE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif

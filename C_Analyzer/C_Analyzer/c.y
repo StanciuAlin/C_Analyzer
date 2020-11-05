@@ -1,16 +1,68 @@
-%token IDENTIFIER CONSTANT STRING_LITERAL SIZEOF
-%token PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP
-%token AND_OP OR_OP MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
-%token SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN
-%token XOR_ASSIGN OR_ASSIGN TYPE_NAME
-
-%token TYPEDEF EXTERN STATIC AUTO REGISTER
-%token CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE CONST VOLATILE VOID
-%token STRUCT UNION ENUM ELLIPSIS
-
-%token RESTRICT _BOOL _COMPLEX _IMAGINARY INLINE
-
-%token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
+%token IDENTIFIER 
+%token CONSTANT 
+%token STRING_LITERAL 
+%token SIZEOF
+%token PTR_OP 
+%token INC_OP 
+%token DEC_OP 
+%token LEFT_OP 
+%token RIGHT_OP 
+%token LE_OP 
+%token GE_OP 
+%token EQ_OP 
+%token NE_OP
+%token AND_OP 
+%token OR_OP 
+%token MUL_ASSIGN 
+%token DIV_ASSIGN 
+%token MOD_ASSIGN 
+%token ADD_ASSIGN
+%token SUB_ASSIGN 
+%token LEFT_ASSIGN 
+%token RIGHT_ASSIGN 
+%token AND_ASSIGN
+%token XOR_ASSIGN 
+%token OR_ASSIGN 
+%token TYPE_NAME
+%token TYPEDEF 
+%token EXTERN 
+%token STATIC 
+%token AUTO 
+%token REGISTER
+%token CHAR 
+%token SHORT 
+%token INT 
+%token LONG 
+%token SIGNED 
+%token UNSIGNED 
+%token FLOAT 
+%token DOUBLE 
+%token CONST 
+%token VOLATILE 
+%token VOID
+%token STRUCT 
+%token UNION 
+%token ENUM 
+%token ELLIPSIS
+%token RESTRICT 
+%token _BOOL 
+%token _COMPLEX 
+%token _IMAGINARY 
+%token INLINE
+%token CASE 
+%token DEFAULT 
+%token IF 
+%token ELSE 
+%token SWITCH 
+%token WHILE 
+%token DO 
+%token FOR 
+%token GOTO 
+%token CONTINUE 
+%token BREAK 
+%token RETURN
+%token COMM_MULTI_LINE
+%token COMM_UNI_LINE
 
 %start translation_unit
 %%

@@ -141,10 +141,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="c.tab.c" />
     <ClCompile Include="C_Analyzer.c" />
     <ClCompile Include="lex.yy.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="c.tab.h" />
     <ClInclude Include="symbols.h" />
   </ItemGroup>
   <ItemGroup>

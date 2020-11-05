@@ -634,7 +634,7 @@ char *yytext;
 #line 1 "c.lex"
 #line 9 "c.lex"
 #include <stdio.h>
-#include "symbols.h"
+#include "c.tab.h"
 
 void count();
 #line 640 "lex.yy.c"
@@ -1027,7 +1027,7 @@ YY_RULE_SETUP
 case 23:
 YY_RULE_SETUP
 #line 39 "c.lex"
-{ count(); return(RESTRICT); }
+{ count(); return(RESTRICT);	}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
@@ -1259,12 +1259,12 @@ YY_RULE_SETUP
 case 69:
 YY_RULE_SETUP
 #line 90 "c.lex"
-{ count(); return(LT_OP); }
+{ count(); return('<'); }
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
 #line 91 "c.lex"
-{ count(); return(GT_OP); }
+{ count(); return('>'); }
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
@@ -1279,112 +1279,112 @@ YY_RULE_SETUP
 case 73:
 YY_RULE_SETUP
 #line 94 "c.lex"
-{ count(); return(END_OF_INSTRUCTION); }
+{ count(); return(';'); }
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
 #line 95 "c.lex"
-{ count(); return(CURLY_BR_OPEN); }
+{ count(); return('{'); }
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
 #line 96 "c.lex"
-{ count(); return(CURLY_BR_CLOSE); }
+{ count(); return('}'); }
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
 #line 98 "c.lex"
-{ count(); return(COMMA); }
+{ count(); return(','); }
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
 #line 99 "c.lex"
-{ count(); return(COLON); }
+{ count(); return(':'); }
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
 #line 100 "c.lex"
-{ count(); return(ASSIGN); }
+{ count(); return('='); }
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
 #line 101 "c.lex"
-{ count(); return(ROUND_BR_OPEN); }
+{ count(); return('('); }
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
 #line 102 "c.lex"
-{ count(); return(ROUND_BR_CLOSE); }
+{ count(); return(')'); }
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
 #line 103 "c.lex"
-{ count(); return(SQUARE_BR_OPEN); }
+{ count(); return('['); }
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
 #line 104 "c.lex"
-{ count(); return(SQUARE_BR_CLOSE); }
+{ count(); return(']'); }
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
 #line 106 "c.lex"
-{ count(); return(DOT); }
+{ count(); return('.'); }
 	YY_BREAK
 case 84:
 YY_RULE_SETUP
 #line 107 "c.lex"
-{ count(); return(AMPERSAND); }
+{ count(); return('&'); }
 	YY_BREAK
 case 85:
 YY_RULE_SETUP
 #line 108 "c.lex"
-{ count(); return(EXCLAMATION_MARK); }
+{ count(); return('!'); }
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
 #line 109 "c.lex"
-{ count(); return(TILDA); }
+{ count(); return('~'); }
 	YY_BREAK
 case 87:
 YY_RULE_SETUP
 #line 110 "c.lex"
-{ count(); return(MINUS); }
+{ count(); return('-'); }
 	YY_BREAK
 case 88:
 YY_RULE_SETUP
 #line 111 "c.lex"
-{ count(); return(PLUS); }
+{ count(); return('+'); }
 	YY_BREAK
 case 89:
 YY_RULE_SETUP
 #line 112 "c.lex"
-{ count(); return(STAR); }
+{ count(); return('*'); }
 	YY_BREAK
 case 90:
 YY_RULE_SETUP
 #line 113 "c.lex"
-{ count(); return(SLASH); }
+{ count(); return('/'); }
 	YY_BREAK
 case 91:
 YY_RULE_SETUP
 #line 114 "c.lex"
-{ count(); return(PERCENT); }
+{ count(); return('%'); }
 	YY_BREAK
 case 92:
 YY_RULE_SETUP
 #line 115 "c.lex"
-{ count(); return(POWER); }
+{ count(); return('^'); }
 	YY_BREAK
 case 93:
 YY_RULE_SETUP
 #line 116 "c.lex"
-{ count(); return(PIPE); }
+{ count(); return('|'); }
 	YY_BREAK
 case 94:
 YY_RULE_SETUP
 #line 117 "c.lex"
-{ count(); return(QUESTION_MARK); }
+{ count(); return('?'); }
 	YY_BREAK
 case 95:
 /* rule 95 can match eol */
