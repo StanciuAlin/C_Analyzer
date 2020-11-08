@@ -1,8 +1,4 @@
-int flag;
-int compare(int a, int b)
-{
-	if(a > b) 
-	{
-		return 1;
-	}
+int main() {
+   printf("Hello, World!");
+   return 0;
 }
