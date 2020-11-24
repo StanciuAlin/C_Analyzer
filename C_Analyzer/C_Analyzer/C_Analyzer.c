@@ -1,11 +1,13 @@
 #include <stdio.h>
-#include "symbols.h"
+//#include "symbols.h"
 #include <errno.h>
+#include "ast.h"
 
 extern FILE* yyin;
 
 extern int yylex(void);
 extern int yyparse(void);
+extern Node* astRoot;
 
 extern int yydebug;
 
@@ -60,6 +62,8 @@ int main()
 		default:
 			break;
 		}
+
+		printAst(astRoot, 0);
 		fclose(yyin);
 	}
 	else

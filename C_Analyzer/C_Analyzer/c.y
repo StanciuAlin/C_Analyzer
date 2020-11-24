@@ -1,5 +1,17 @@
-%token IDENTIFIER 
-%token CONSTANT 
+%{
+#include "ast.h"
+#include <stdio.h>
+
+Node* astRoot = NULL;
+%}
+%union{
+	
+	Node	*node;
+	char* strings;
+	int intVal;
+}
+%token <strings> IDENTIFIER 
+%token <intVal> CONSTANT 
 %token STRING_LITERAL 
 %token SIZEOF
 %token PTR_OP 
@@ -63,6 +75,70 @@
 %token RETURN
 %token COMM_MULTI_LINE
 %token COMM_UNI_LINE
+
+%type <node> translation_unit
+%type <node> external_declaration
+%type <node> declaration
+%type <node> declarator
+%type <node> function_definition
+%type <node> parameter_list
+%type <node> parameter_declaration
+%type <node> compound_statement
+%type <node> declaration_list
+%type <node> labeled_statement
+%type <node> expression_statement
+%type <node> selection_statement
+%type <node> iteration_statement
+%type <node> jump_statement
+%type <node> statement
+%type <node> statement_list
+%type <node> declaration_specifiers
+%type <node> init_declarator
+%type <node> init_declarator_list
+%type <node> type_specifier
+%type <node> type_qualifier
+%type <node> type_name
+%type <node> expression
+%type <node> assignment_expression
+%type <node> assignment_operator
+%type <node> unary_expression
+%type <node> unary_operator
+%type <node> primary_expression
+%type <node> storage_class_specifier
+%type <node> struct_or_union_specifier
+%type <node> direct_declarator
+%type <node> conditional_expression
+%type <node> postfix_expression
+%type <node> argument_expression_list
+%type <node> cast_expression
+%type <node> multiplicative_expression
+%type <node> additive_expression
+%type <node> shift_expression
+%type <node> relational_expression
+%type <node> equality_expression
+%type <node> and_expression
+%type <node> exclusive_or_expression
+%type <node> inclusive_or_expression
+%type <node> logical_and_expression
+%type <node> logical_or_expression
+%type <node> constant_expression
+%type <node> initializer
+%type <node> initializer_list
+%type <node> enum_specifier
+%type <node> struct_or_union
+%type <node> struct_declaration_list
+%type <node> struct_declaration
+%type <node> specifier_qualifier_list
+%type <node> struct_declarator_list
+%type <node> struct_declarator
+%type <node> enumerator_list
+%type <node> enumerator
+%type <node> parameter_type_list
+%type <node> identifier_list
+%type <node> type_qualifier_list
+%type <node> pointer
+%type <node> abstract_declarator
+%type <node> direct_abstract_declarator
 
 %start translation_unit
 %%
@@ -205,14 +281,14 @@ constant_expression
 	;
 
 declaration
-	: declaration_specifiers ';'
-	| declaration_specifiers init_declarator_list ';'
+	: declaration_specifiers ';'										{ $$ = createVarDeclaration($1, $1, 0);}
+	| declaration_specifiers init_declarator_list ';'					{ $$ = createVarDeclaration($1, $2, 0);}
 	;
 
 declaration_specifiers
 	: storage_class_specifier
 	| storage_class_specifier declaration_specifiers
-	| type_specifier
+	| type_specifier													{ $$ = createVarDeclaration($1, $1, 0);}
 	| type_specifier declaration_specifiers
 	| type_qualifier
 	| type_qualifier declaration_specifiers
@@ -238,22 +314,22 @@ storage_class_specifier
 	;
 
 type_specifier
-	: VOID
-	| CHAR
-	| SHORT
-	| INT
-	| LONG
-	| FLOAT
-	| DOUBLE
-	| SIGNED
-	| UNSIGNED
-	| _BOOL
-	| _COMPLEX
-	| _IMAGINARY
-	| INLINE
-	| struct_or_union_specifier
-	| enum_specifier
-	| TYPE_NAME
+	: VOID																{$$ = createTypeSpecifier("VOID");}
+	| CHAR																{$$ = createTypeSpecifier("CHAR");}
+	| SHORT																{$$ = createTypeSpecifier("SHORT");}
+	| INT																{$$ = createTypeSpecifier("INT");}
+	| LONG																{$$ = createTypeSpecifier("LONG");}
+	| FLOAT                                                             {$$ = createTypeSpecifier("FLOAT");}
+	| DOUBLE															{$$ = createTypeSpecifier("DOUBLE");}
+	| SIGNED															{$$ = createTypeSpecifier("SIGNED");}
+	| UNSIGNED															{$$ = createTypeSpecifier("UNSIGNED");}
+	| _BOOL																{$$ = createTypeSpecifier("_BOOL");}
+	| _COMPLEX															{$$ = createTypeSpecifier("_COMPLEX");}
+	| _IMAGINARY														{$$ = createTypeSpecifier("_IMAGINARY");}
+	| INLINE															{$$ = createTypeSpecifier("INLINE");}
+	| struct_or_union_specifier											
+	| enum_specifier													
+	| TYPE_NAME															{$$ = createTypeSpecifier("TYPE_NAME");}
 	;
 
 struct_or_union_specifier
@@ -349,8 +425,11 @@ parameter_type_list
 	;
 
 parameter_list
-	: parameter_declaration
-	| parameter_list ',' parameter_declaration
+	: parameter_declaration										{ $$ = createListNode("ParametersList", $1);}
+	| parameter_list ',' parameter_declaration					{ 
+																	$$ = $1;
+																	addLinkToList($$, $3);
+																}
 	;
 
 parameter_declaration
@@ -414,20 +493,26 @@ labeled_statement
 	;
 
 compound_statement
-	: '{' '}'
-	| '{' statement_list '}'
-	| '{' declaration_list '}'
-	| '{' declaration_list statement_list '}'
+	: '{' '}'														{$$ = createCompoundStatement(NULL, NULL);}
+	| '{' statement_list '}'										
+	| '{' declaration_list '}'										{$$ = createCompoundStatement($2, NULL);}
+	| '{' declaration_list statement_list '}'						{$$ = createCompoundStatement($2, $3);}
 	;
 
 declaration_list
-	: declaration
-	| declaration_list declaration
+	: declaration													{ $$ = createListNode("LocalDeclarations", $1); }
+	| declaration_list declaration									{
+																		$$ = $1;
+																		addLinkToList($$, $2);
+																	}
 	;
 
 statement_list
-	: statement
-	| statement_list statement
+	: statement														{ $$ = createListNode("InstructionsList", $1);}
+	| statement_list statement										{
+																		$$ = $1;
+																		addLinkToList($$, $2);
+																	}
 	;
 
 expression_statement
@@ -436,10 +521,10 @@ expression_statement
 	;
 
 selection_statement
-	: IF '(' expression ')' compound_statement ELSE compound_statement
-	| IF '(' expression ')' compound_statement
+	: IF '(' expression ')' compound_statement ELSE compound_statement		{ $$ = createIfStatement("", $5, $7);}
+	| IF '(' expression ')' compound_statement								{ $$ = createIfStatement($3, $5, NULL);}
 	| IF '(' expression ')' selection_statement
-	| SWITCH '(' expression ')' selection_statement
+	| SWITCH '(' expression ')' statement
 	;
 
 iteration_statement
@@ -458,24 +543,26 @@ jump_statement
 	;
 
 translation_unit
-	: external_declaration
-	| translation_unit external_declaration
+	: external_declaration								{ $$ = createProgramUnitNode($1); astRoot = $$;}
+	| translation_unit external_declaration             {							 
+														  $$ = $1; 
+														  addLinkToList($$, $2);
+														}
 	;
 
 external_declaration
-	: function_definition
-	| declaration
+	: function_definition								{ $$ = createDeclarationNode($1);}
+	| declaration										{$$ = createDeclarationNode($1);}
 	;
 
 function_definition
-	: declaration_specifiers declarator declaration_list compound_statement
+	: declaration_specifiers declarator declaration_list compound_statement          { $$ = createFunctionDeclarationNode($1, $2, $3, $4);  }
 	| declaration_specifiers declarator compound_statement
 	| declarator declaration_list compound_statement
 	| declarator compound_statement
 	;
 
 %%
-#include <stdio.h>
 
 extern char yytext[];
 extern int column;
