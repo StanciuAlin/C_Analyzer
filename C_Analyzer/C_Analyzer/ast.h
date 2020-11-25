@@ -12,12 +12,20 @@ typedef struct node {
 }Node;
 
 Node* createTypeSpecifier(const char* typeName);
-Node* createProgramUnitNode(Node* declaration);
-Node* createDeclarationNode(Node* varFunDeclaration);
+Node* createTranslationUnitNode(Node* declaration);
+Node* createExternalDeclarationNode(Node* varFunDeclaration);
 Node* createFunctionDeclarationNode(Node* typeSpecifier, const char* functionName, Node* paramsList, Node* compoundStatement);
 Node* createVarDeclaration(Node* typeSpecifier, const char* varName, int value); //we need a version for each type of constant
+Node* createStatement(Node* statement);
+Node* createLabeledStatement(const char* labelName, Node* constStatement, Node* statement);
 Node* createCompoundStatement(Node* localDeclList, Node* instructionsList);
-Node* createIfStatement(const char* identifierName, Node* thenStatement, Node* elseStatement);
+Node* createExpressionStatement(Node* expression);
+
+Node* createIfStatement(Node* expresionIf, Node* thenStatement, Node* elseStatement);
+Node* createSwitchStatement(Node* expresionSwitch, Node* statement);
+Node* createWhileStatement(Node* expresionWhile, Node* statement);
+Node* createDoWhileStatement(Node* statement, Node* expresionWhile);
+Node* createForStatement(Node* initForExpression, Node* cyclicCondition, Node* stepFor, Node* statement);
 
 Node* createDefaultNode(const char* nodeName, unsigned int linksCount);
 Node* resizeNodeLinks(Node* nodeToResize, unsigned int newSize);

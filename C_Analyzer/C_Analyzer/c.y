@@ -478,25 +478,25 @@ initializer_list
 	;
 
 statement
-	: labeled_statement
-	| compound_statement
-	| expression_statement
-	| selection_statement
-	| iteration_statement
-	| jump_statement
+	: labeled_statement											  { $$ = createStatement($1); }
+	| compound_statement										  { $$ = createStatement($1); }
+	| expression_statement										  { $$ = createStatement($1); }
+	| selection_statement										  { $$ = createStatement($1); }
+	| iteration_statement										  { $$ = createStatement($1); }
+	| jump_statement											  { $$ = createStatement($1); }
 	;
 
 labeled_statement
-	: IDENTIFIER ':' statement
-	| CASE constant_expression ':' statement
-	| DEFAULT ':' statement
+	: IDENTIFIER ':' statement                                     { $$ = createLabeledStatement("", NULL, $3); }
+	| CASE constant_expression ':' statement                       { $$ = createLabeledStatement("", $2, $4); }
+	| DEFAULT ':' statement										   { $$ = createLabeledStatement("", NULL, $3); }
 	;
 
 compound_statement
-	: '{' '}'														{$$ = createCompoundStatement(NULL, NULL);}
-	| '{' statement_list '}'										
-	| '{' declaration_list '}'										{$$ = createCompoundStatement($2, NULL);}
-	| '{' declaration_list statement_list '}'						{$$ = createCompoundStatement($2, $3);}
+	: '{' '}'														{ $$ = createCompoundStatement(NULL, NULL); }
+	| '{' statement_list '}'										{ $$ = createCompoundStatement($2, NULL); }
+	| '{' declaration_list '}'										{ $$ = createCompoundStatement($2, NULL); }
+	| '{' declaration_list statement_list '}'						{ $$ = createCompoundStatement($2, $3); }
 	;
 
 declaration_list
@@ -516,22 +516,22 @@ statement_list
 	;
 
 expression_statement
-	: ';'
-	| expression ';'
+	: ';'															{ $$ = createExpressionStatement(NULL); }
+	| expression ';'												{ $$ = createExpressionStatement($1); }
 	;
 
 selection_statement
-	: IF '(' expression ')' compound_statement ELSE compound_statement		{ $$ = createIfStatement("", $5, $7);}
-	| IF '(' expression ')' compound_statement								{ $$ = createIfStatement($3, $5, NULL);}
-	| IF '(' expression ')' selection_statement
-	| SWITCH '(' expression ')' statement
+	: IF '(' expression ')' compound_statement ELSE compound_statement		{ $$ = createIfStatement($3, $5, $7); }
+	| IF '(' expression ')' compound_statement								{ $$ = createIfStatement($3, $5, NULL); }
+	| IF '(' expression ')' selection_statement                             { $$ = createIfStatement($3, $5, NULL); }
+	| SWITCH '(' expression ')' statement									{ $$ = createSwitchStatement($3, $5); }
 	;
 
 iteration_statement
-	: WHILE '(' expression ')' statement
-	| DO statement WHILE '(' expression ')' ';'
-	| FOR '(' expression_statement expression_statement ')' statement
-	| FOR '(' expression_statement expression_statement expression ')' statement
+	: WHILE '(' expression ')' statement                                              { $$ = createWhileStatement($3, $5); }
+	| DO statement WHILE '(' expression ')' ';'                                       { $$ = createDoWhileStatement($2, $5); }
+	| FOR '(' expression_statement expression_statement ')' statement                 { $$ = createForStatement($3, $4, NULL, $6); }
+	| FOR '(' expression_statement expression_statement expression ')' statement      { $$ = createForStatement($3, $4, $5, $7); }
 	;
 
 jump_statement
@@ -543,7 +543,7 @@ jump_statement
 	;
 
 translation_unit
-	: external_declaration								{ $$ = createProgramUnitNode($1); astRoot = $$;}
+	: external_declaration								{ $$ = createTranslationUnitNode($1); astRoot = $$;}
 	| translation_unit external_declaration             {							 
 														  $$ = $1; 
 														  addLinkToList($$, $2);
@@ -551,15 +551,15 @@ translation_unit
 	;
 
 external_declaration
-	: function_definition								{ $$ = createDeclarationNode($1);}
-	| declaration										{$$ = createDeclarationNode($1);}
+	: function_definition								{ $$ = createExternalDeclarationNode($1);}
+	| declaration										{$$ = createExternalDeclarationNode($1);}
 	;
 
 function_definition
-	: declaration_specifiers declarator declaration_list compound_statement          { $$ = createFunctionDeclarationNode($1, $2, $3, $4);  }
-	| declaration_specifiers declarator compound_statement
-	| declarator declaration_list compound_statement
-	| declarator compound_statement
+	: declaration_specifiers declarator declaration_list compound_statement          { $$ = createFunctionDeclarationNode($1, $2, $3, $4); }
+	| declaration_specifiers declarator compound_statement                           { $$ = createFunctionDeclarationNode($1, $2, NULL, $3); }
+	| declarator declaration_list compound_statement                                 { $$ = createFunctionDeclarationNode(NULL, $1, $2, $3); }
+	| declarator compound_statement                                                  { $$ = createFunctionDeclarationNode(NULL, $1, NULL, $2); }
 	;
 
 %%
