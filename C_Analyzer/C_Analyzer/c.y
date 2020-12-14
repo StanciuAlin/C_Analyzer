@@ -144,192 +144,192 @@ Node* astRoot = NULL;
 %%
 
 primary_expression
-	: IDENTIFIER														{ $$ = createNode }
-	| CONSTANT															{ $$ = createNode }
-	| STRING_LITERAL													{ $$ = createNode }
-	| '(' expression ')'												{ $$ = createNode }
+	: IDENTIFIER														{ $$ = createNodeLeaf("IDENTIFIER PrimaryExpr"); }
+	| CONSTANT															{ $$ = createNodeLeaf("CONSTANT PrimaryExpr"); }
+	| STRING_LITERAL													{ $$ = createNodeLeaf("STRING_LITERAL PrimaryExpr"); }
+	| '(' expression ')'												{ $$ = createNodeOne($2, "Expression PrimaryExpr"); }
 	;
 
 postfix_expression
-	: primary_expression												{ $$ = createNode }
-	| postfix_expression '[' expression ']'								{ $$ = createNode }
-	| postfix_expression '(' ')'										{ $$ = createNode }
-	| postfix_expression '(' argument_expression_list ')'				{ $$ = createNode }
-	| postfix_expression '.' IDENTIFIER									{ $$ = createNode }
-	| postfix_expression PTR_OP IDENTIFIER								{ $$ = createNode }
-	| postfix_expression INC_OP											{ $$ = createNode }
-	| postfix_expression DEC_OP											{ $$ = createNode }
+	: primary_expression												{ $$ = createNodeOne($1, "PrimaryExpr PostfixExpr"); }
+	| postfix_expression '[' expression ']'								{ $$ = createNodeTwo($1, $3, "Expr PostfixExpr"); }
+	| postfix_expression '(' ')'										{ $$ = createNodeOne($1, "Empty PostfixExpr"); }
+	| postfix_expression '(' argument_expression_list ')'				{ $$ = createNodeTwo($1, $3, "ArgExprList PostfixExpr"); }
+	| postfix_expression '.' IDENTIFIER									{ $$ = createNodeOne($1, "IDENTIFIER PostfixExpr"); }
+	| postfix_expression PTR_OP IDENTIFIER								{ $$ = createNodeOne($1, "PTR_OP IDENTIFIER PostfixExpr"); }
+	| postfix_expression INC_OP											{ $$ = createNodeOne($1, "INC_OP PostfixExpr"); }
+	| postfix_expression DEC_OP											{ $$ = createNodeOne($1, "DEC_OP PostfixExpr"); }
 	;
 
 argument_expression_list
-	: assignment_expression												{ $$ = createNode }
-	| argument_expression_list ',' assignment_expression				{ $$ = createNode }
+	: assignment_expression												{ $$ = createNodeOne($1, "AssignExpr ArgExprList"); }
+	| argument_expression_list ',' assignment_expression				{ $$ = createNodeTwo($1, $3, "AssignExpr ArgExprList"); }
 	;
 
 unary_expression
-	: postfix_expression												{ $$ = createNode }
-	| INC_OP unary_expression											{ $$ = createNode }
-	| DEC_OP unary_expression											{ $$ = createNode }
-	| unary_operator cast_expression									{ $$ = createNode }
-	| SIZEOF unary_expression											{ $$ = createNode }
-	| SIZEOF '(' type_name ')'											{ $$ = createNode }
+	: postfix_expression												{ $$ = createNodeOne($1, "PostfixExpr UnaryExpression"); }
+	| INC_OP unary_expression											{ $$ = createNodeOne($2, "INC_OP UnaryExpression"); }
+	| DEC_OP unary_expression											{ $$ = createNodeOne($2, "DEC_OP UnaryExpression"); }
+	| unary_operator cast_expression									{ $$ = createNodeTwo($1, $2, "CastExpr UnaryExpression"); }
+	| SIZEOF unary_expression											{ $$ = createNodeOne($2, "SIZEOF UnaryExpression"); }
+	| SIZEOF '(' type_name ')'											{ $$ = createNodeOne($3, "SIZEOF (typename) UnaryExpression"); }
 	;
 
 unary_operator
-	: '&'																{ $$ = createNodeLeaf("&"); }
-	| '*'																{ $$ = createNodeLeaf("*"); }
-	| '+'																{ $$ = createNodeLeaf("+"); }
-	| '-'																{ $$ = createNodeLeaf("-"); }
-	| '~'																{ $$ = createNodeLeaf("~"); }
-	| '!'																{ $$ = createNodeLeaf("!"); }
+	: '&'																{ $$ = createNodeLeaf("& UnaryOperator"); }
+	| '*'																{ $$ = createNodeLeaf("* UnaryOperator"); }
+	| '+'																{ $$ = createNodeLeaf("+ UnaryOperator"); }
+	| '-'																{ $$ = createNodeLeaf("- UnaryOperator"); }
+	| '~'																{ $$ = createNodeLeaf("~ UnaryOperator"); }
+	| '!'																{ $$ = createNodeLeaf("! UnaryOperator"); }
 	;
 
 cast_expression
-	: unary_expression													{ $$ = createNode }
-	| '(' type_name ')' cast_expression									{ $$ = createNode }
+	: unary_expression													{ $$ = createNodeOne($1, "UnaryExpr CastExpr"); }
+	| '(' type_name ')' cast_expression									{ $$ = createNodeTwo($2, $4, "(typename) CastExpr"); }
 	;
 
 multiplicative_expression
-	: cast_expression													{ $$ = createNode }
-	| multiplicative_expression '*' cast_expression						{ $$ = createNode }
-	| multiplicative_expression '/' cast_expression						{ $$ = createNode }
-	| multiplicative_expression '%' cast_expression						{ $$ = createNode }
+	: cast_expression													{ $$ = createNodeOne($1, "CastExpr MultiplicativeExpr"); }
+	| multiplicative_expression '*' cast_expression						{ $$ = createNodeTwo($1, $3, "* MultiplicativeExpr"); }
+	| multiplicative_expression '/' cast_expression						{ $$ = createNodeTwo($1, $3, "/ MultiplicativeExpr"); }
+	| multiplicative_expression '%' cast_expression						{ $$ = createNodeTwo($1, $3, "% MultiplicativeExpr"); }
 	;
 
 additive_expression
-	: multiplicative_expression											{ $$ = createNode }
-	| additive_expression '+' multiplicative_expression					{ $$ = createNode }
-	| additive_expression '-' multiplicative_expression					{ $$ = createNode }
+	: multiplicative_expression											{ $$ = createNodeOne($1, "MultiplicativeExpr AdditiveExpr"); }
+	| additive_expression '+' multiplicative_expression					{ $$ = createNodeTwo($1, $3, "+ AdditiveExpr"); }
+	| additive_expression '-' multiplicative_expression					{ $$ = createNodeTwo($1, $3, "- AdditiveExpr"); }
 	;
 
 shift_expression
-	: additive_expression												{ $$ = createNode }
-	| shift_expression LEFT_OP additive_expression						{ $$ = createNode }
-	| shift_expression RIGHT_OP additive_expression						{ $$ = createNode }
+	: additive_expression												{ $$ = createNodeOne($1, "AdditiveExpr ShiftExpr"); }
+	| shift_expression LEFT_OP additive_expression						{ $$ = createNodeTwo($1, $3, "LEFT_OP ShiftExpr"); }
+	| shift_expression RIGHT_OP additive_expression						{ $$ = createNodeTwo($1, $3, "RIGHT_OP ShiftExpr"); }
 	;
 
 relational_expression
-	: shift_expression													{ $$ = createNode }
-	| relational_expression '<' shift_expression						{ $$ = createNode }
-	| relational_expression '>' shift_expression						{ $$ = createNode }
-	| relational_expression LE_OP shift_expression						{ $$ = createNode }
-	| relational_expression GE_OP shift_expression						{ $$ = createNode }
+	: shift_expression													{ $$ = createNodeOne($1, "ShiftExpr RelationalExpr"); }
+	| relational_expression '<' shift_expression						{ $$ = createNodeTwo($1, $3, "< RelationalExpr"); }
+	| relational_expression '>' shift_expression						{ $$ = createNodeTwo($1, $3, "> RelationalExpr"); }
+	| relational_expression LE_OP shift_expression						{ $$ = createNodeTwo($1, $3, "LE_OP RelationalExpr"); }
+	| relational_expression GE_OP shift_expression						{ $$ = createNodeTwo($1, $3, "GE_OP RelationalExpr"); }
 	;
 
 equality_expression
-	: relational_expression												{ $$ = createNode }
-	| equality_expression EQ_OP relational_expression					{ $$ = createNode }
-	| equality_expression NE_OP relational_expression					{ $$ = createNode }
+	: relational_expression												{ $$ = createNodeOne($1, "RelationalExpr EqualityExpr"); }
+	| equality_expression EQ_OP relational_expression					{ $$ = createNodeTwo($1, $3, "EQ_OP EqualityExpr"); }
+	| equality_expression NE_OP relational_expression					{ $$ = createNodeTwo($1, $3, "NE_OP EqualityExpr"); }
 	;
 
 and_expression
-	: equality_expression												{ $$ = createNode }
-	| and_expression '&' equality_expression							{ $$ = createNode }
+	: equality_expression												{ $$ = createNodeOne($1, "EqualityExpr AndExpr"); }
+	| and_expression '&' equality_expression							{ $$ = createNodeTwo($1, $3, "& AndExpr"); }
 	;
 
 exclusive_or_expression
-	: and_expression													{ $$ = createNode }
-	| exclusive_or_expression '^' and_expression						{ $$ = createNode }
+	: and_expression													{ $$ = createNodeOne($1, "AndExpr ExclusiveOrExpr"); }
+	| exclusive_or_expression '^' and_expression						{ $$ = createNodeTwo($1, $3, "^ ExclusiveOrExpr"); }
 	;
 
 inclusive_or_expression
-	: exclusive_or_expression											{ $$ = createNode }
-	| inclusive_or_expression '|' exclusive_or_expression				{ $$ = createNode }
+	: exclusive_or_expression											{ $$ = createNodeOne($1, "ExclusiveOrExpr InclusiveOrExpr"); }
+	| inclusive_or_expression '|' exclusive_or_expression				{ $$ = createNodeTwo($1, $3, "| InclusiveOrExpr"); }
 	;
 
 logical_and_expression
-	: inclusive_or_expression											{ $$ = createNode }
-	| logical_and_expression AND_OP inclusive_or_expression				{ $$ = createNode }
+	: inclusive_or_expression											{ $$ = createNodeOne($1, "InclusiveOrExpr LogicalAndExpr"); }
+	| logical_and_expression AND_OP inclusive_or_expression				{ $$ = createNodeTwo($1, $3, "AND_OP LogicalAndExpr"); }
 	;
 
 logical_or_expression
-	: logical_and_expression											{ $$ = createNode }
-	| logical_or_expression OR_OP logical_and_expression				{ $$ = createNode }
+	: logical_and_expression											{ $$ = createNodeOne($1, "LogicalAndExpr LogicalOrExpr"); }
+	| logical_or_expression OR_OP logical_and_expression				{ $$ = createNodeTwo($1, $3, "OR_OP LogicalOrExpr"); }
 	;
 
 conditional_expression
-	: logical_or_expression												{ $$ = createNode }
-	| logical_or_expression '?' expression ':' conditional_expression	{ $$ = createNode }
+	: logical_or_expression												{ $$ = createNodeOne($1, "LogicalOrExpr CondExpr"); }
+	| logical_or_expression '?' expression ':' conditional_expression	{ $$ = createNodeThree($1, $3, $5, "? : CondExpr"); }
 	;
 
 assignment_expression
-	: conditional_expression											{ $$ = createNode }
-	| unary_expression assignment_operator assignment_expression        { $$ = createNode }
+	: conditional_expression											{ $$ = createNodeOne($1, "CondExpr AssignExpr"); }
+	| unary_expression assignment_operator assignment_expression        { $$ = createNodeThree($1, $2, $3, "UnaryExpression = AssignExpr"); }
 	;
 
 assignment_operator
-	: '='																{ $$ = createNodeLeaf("AssignmentOperator - ="); }
-	| MUL_ASSIGN														{ $$ = createNodeLeaf("AssignmentOperator - MUL_ASSIGN"); }
-	| DIV_ASSIGN														{ $$ = createNodeLeaf("AssignmentOperator - DIV_ASSIGN"); }
-	| MOD_ASSIGN														{ $$ = createNodeLeaf("AssignmentOperator - MOD_ASSIGN"); }
-	| ADD_ASSIGN														{ $$ = createNodeLeaf("AssignmentOperator - ADD_ASSIGN"); }
-	| SUB_ASSIGN														{ $$ = createNodeLeaf("AssignmentOperator - SUB_ASSIGN"); }
-	| LEFT_ASSIGN														{ $$ = createNodeLeaf("AssignmentOperator - LEFT_ASSIGN"); }
-	| RIGHT_ASSIGN														{ $$ = createNodeLeaf("AssignmentOperator - RIGHT_ASSIGN"); }
-	| AND_ASSIGN														{ $$ = createNodeLeaf("AssignmentOperator - AND_ASSIGN"); }
-	| XOR_ASSIGN														{ $$ = createNodeLeaf("AssignmentOperator - XOR_ASSIGN"); }
-	| OR_ASSIGN															{ $$ = createNodeLeaf("AssignmentOperator - OR_ASSIGN"); }
+	: '='																{ $$ = createNodeLeaf("= AssignmentOp"); }
+	| MUL_ASSIGN														{ $$ = createNodeLeaf("MUL_ASSIGN AssignmentOp"); }
+	| DIV_ASSIGN														{ $$ = createNodeLeaf("DIV_ASSIGN AssignmentOp"); }
+	| MOD_ASSIGN														{ $$ = createNodeLeaf("MOD_ASSIGN AssignmentOp"); }
+	| ADD_ASSIGN														{ $$ = createNodeLeaf("ADD_ASSIGN AssignmentOp"); }
+	| SUB_ASSIGN														{ $$ = createNodeLeaf("SUB_ASSIGN AssignmentOp"); }
+	| LEFT_ASSIGN														{ $$ = createNodeLeaf("LEFT_ASSIGN AssignmentOp"); }
+	| RIGHT_ASSIGN														{ $$ = createNodeLeaf("RIGHT_ASSIGN AssignmentOp"); }
+	| AND_ASSIGN														{ $$ = createNodeLeaf("AND_ASSIGN AssignmentOp"); }
+	| XOR_ASSIGN														{ $$ = createNodeLeaf("XOR_ASSIGN AssignmentOp"); }
+	| OR_ASSIGN															{ $$ = createNodeLeaf("OR_ASSIGN AssignmentOp"); }
 	;
 
 expression
-	: assignment_expression												{ $$ = createNodeOne($1, "Expression - AssignmentExpr"); }
-	| expression ',' assignment_expression								{ $$ = createNodeTwo($1, $3, "Expression - Expr - AssignmentExpr"); }
+	: assignment_expression												{ $$ = createNodeOne($1, "AssignExpr - Expr"); }
+	| expression ',' assignment_expression								{ $$ = createNodeTwo($1, $3, ", Expr"); }
 	;
 
 constant_expression
-	: conditional_expression											{ $$ = createNodeOne($1, "ConstExpr - CondExpr"); }
+	: conditional_expression											{ $$ = createNodeOne($1, "CondExpr ConstExpr"); }
 	;
 
 declaration
-	: declaration_specifiers ';'										{ $$ = createNodeOne($1, "Declaration - DeclSpec"); }
-	| declaration_specifiers init_declarator_list ';'					{ $$ = createNodeTwo($1, $2, "Declaration - DeclSpec - InitDeclList"); }
+	: declaration_specifiers ';'										{ $$ = createNodeOne($1, "DeclSpecs Declaration"); }
+	| declaration_specifiers init_declarator_list ';'					{ $$ = createNodeTwo($1, $2, "InitDeclList Declaration"); }
 	;																	
 																		
 declaration_specifiers													
-	: storage_class_specifier											{ $$ = createNodeOne($1, "StorageClassSpecifier"); }                                          
-	| storage_class_specifier declaration_specifiers					{ $$ = createNodeTwo($1, $2, "StorageClassSpecifier"); }		
-	| type_specifier													{ $$ = createNodeOne($1, "StorageClassSpecifier"); }
-	| type_specifier declaration_specifiers								{ $$ = createNodeTwo($1, $2, "StorageClassSpecifier"); }
-	| type_qualifier													{ $$ = createNodeOne($1, "StorageClassSpecifier"); }
-	| type_qualifier declaration_specifiers								{ $$ = createNodeTwo($1, $2, "StorageClassSpecifier"); }
+	: storage_class_specifier											{ $$ = createNodeOne($1, "StorageClassSpec DeclSpecs"); }                                          
+	| storage_class_specifier declaration_specifiers					{ $$ = createNodeTwo($1, $2, "DeclSpecs"); }		
+	| type_specifier													{ $$ = createNodeOne($1, "TypeSpec DeclSpecs"); }
+	| type_specifier declaration_specifiers								{ $$ = createNodeTwo($1, $2, "DeclSpecs"); }
+	| type_qualifier													{ $$ = createNodeOne($1, "TypeQual DeclSpecs"); }
+	| type_qualifier declaration_specifiers								{ $$ = createNodeTwo($1, $2, "DeclSpecs"); }
 	;
 
 init_declarator_list
-	: init_declarator													{ $$ = createNodeOne($1, "InitDeclList - InitDecl"); }
-	| init_declarator_list ',' init_declarator							{ $$ = createNodeTwo($1, $3, "InitDeclList - List"); }
+	: init_declarator													{ $$ = createNodeOne($1, "InitDeclarator InitDeclaratorList"); }
+	| init_declarator_list ',' init_declarator							{ $$ = createNodeTwo($1, $3, ", InitDeclaratorList"); }
 	;
 
 init_declarator
-	: declarator														{ $$ = createNodeOne($1, "InitDecl - Declarator"); }
-	| declarator '=' initializer										{ $$ = createNodeTwo($1, $3, "InitDecl - = Initializer"); }
+	: declarator														{ $$ = createNodeOne($1, "Declarator InitDeclarator"); }
+	| declarator '=' initializer										{ $$ = createNodeTwo($1, $3, "Initializer InitDeclarator"); }
 	;
 
 storage_class_specifier
-	: TYPEDEF															{ $$ = createNodeLeaf("TYPEDEF"); }
-	| EXTERN															{ $$ = createNodeLeaf("EXTERN"); }
-	| STATIC															{ $$ = createNodeLeaf("STATIC"); }
-	| AUTO																{ $$ = createNodeLeaf("AUTO"); }
-	| REGISTER															{ $$ = createNodeLeaf("REGISTER"); }
-	| RESTRICT															{ $$ = createNodeLeaf("RESTRICT"); }
+	: TYPEDEF															{ $$ = createNodeLeaf("TYPEDEF StorageClassSpec"); }
+	| EXTERN															{ $$ = createNodeLeaf("EXTERN StorageClassSpec"); }
+	| STATIC															{ $$ = createNodeLeaf("STATIC StorageClassSpec"); }
+	| AUTO																{ $$ = createNodeLeaf("AUTO StorageClassSpec"); }
+	| REGISTER															{ $$ = createNodeLeaf("REGISTER StorageClassSpec"); }
+	| RESTRICT															{ $$ = createNodeLeaf("RESTRICT StorageClassSpec"); }
 	;
 
 type_specifier
-	: VOID																{ $$ = createNodeLeaf("TypeSpecifier - VOID"); }
-	| CHAR																{ $$ = createNodeLeaf("TypeSpecifier - CHAR"); }
-	| SHORT																{ $$ = createNodeLeaf("TypeSpecifier - SHORT"); }
-	| INT																{ $$ = createNodeLeaf("TypeSpecifier - INT"); }
-	| LONG																{ $$ = createNodeLeaf("TypeSpecifier - LONG"); }
-	| FLOAT                                                             { $$ = createNodeLeaf("TypeSpecifier - FLOAT"); }
-	| DOUBLE															{ $$ = createNodeLeaf("TypeSpecifier - DOUBLE"); }
-	| SIGNED															{ $$ = createNodeLeaf("TypeSpecifier - SIGNED"); }
-	| UNSIGNED															{ $$ = createNodeLeaf("TypeSpecifier - UNSIGNED"); }
-	| _BOOL																{ $$ = createNodeLeaf("TypeSpecifier - _BOOL"); }
-	| _COMPLEX															{ $$ = createNodeLeaf("TypeSpecifier - _COMPLEX"); }
-	| _IMAGINARY														{ $$ = createNodeLeaf("TypeSpecifier - _IMAGINARY"); }
-	| INLINE															{ $$ = createNodeLeaf("TypeSpecifier - INLINE"); }
-	| struct_or_union_specifier											{ $$ = createNodeOne($1, "TypeSpecifier - StructOrUnion"); }
-	| enum_specifier													{ $$ = createNodeOne($1, "TypeSpecifier - Enum"); }
-	| TYPE_NAME															{ $$ = createNodeLeaf("TypeSpecifier - TYPE_NAME"); }
+	: VOID																{ $$ = createNodeLeaf("VOID TypeSpec"); }
+	| CHAR																{ $$ = createNodeLeaf("CHAR TypeSpec"); }
+	| SHORT																{ $$ = createNodeLeaf("SHORT TypeSpec"); }
+	| INT																{ $$ = createNodeLeaf("INT TypeSpec"); }
+	| LONG																{ $$ = createNodeLeaf("LONG TypeSpec"); }
+	| FLOAT                                                             { $$ = createNodeLeaf("FLOAT TypeSpec"); }
+	| DOUBLE															{ $$ = createNodeLeaf("DOUBLE TypeSpec"); }
+	| SIGNED															{ $$ = createNodeLeaf("SIGNED TypeSpec"); }
+	| UNSIGNED															{ $$ = createNodeLeaf("UNSIGNED TypeSpec"); }
+	| _BOOL																{ $$ = createNodeLeaf("_BOOL TypeSpec"); }
+	| _COMPLEX															{ $$ = createNodeLeaf("_COMPLEX TypeSpec"); }
+	| _IMAGINARY														{ $$ = createNodeLeaf("_IMAGINARY TypeSpec"); }
+	| INLINE															{ $$ = createNodeLeaf("INLINE TypeSpec"); }
+	| struct_or_union_specifier											{ $$ = createNodeOne($1, "StructOrUnion TypeSpec"); }
+	| enum_specifier													{ $$ = createNodeOne($1, "Enum TypeSpec"); }
+	| TYPE_NAME															{ $$ = createNodeLeaf("TYPE_NAME TypeSpec"); }
 	;
 
 struct_or_union_specifier
