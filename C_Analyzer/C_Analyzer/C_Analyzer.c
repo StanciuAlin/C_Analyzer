@@ -1,7 +1,8 @@
 #include <stdio.h>
 //#include "symbols.h"
 #include <errno.h>
-#include "ast.h"
+//#include "ast.h"
+#include "SymbolTable.h"
 
 extern FILE* yyin;
 
@@ -10,6 +11,8 @@ extern int yyparse(void);
 extern Node* astRoot;
 
 extern int yydebug;
+
+SymNode* symRoot = NULL;
 
 int main()
 {
@@ -64,6 +67,15 @@ int main()
 		}
 
 		printAst(astRoot, 0);
+		
+		symRoot = createDefaultSymTableNode("Test",
+			"test",
+			0,
+			LOCAL,
+			"local",
+			3);
+		createSymTreeFromSyntax(astRoot, symRoot, 0);
+		printSymTree(symRoot, 0);
 		fclose(yyin);
 	}
 	else

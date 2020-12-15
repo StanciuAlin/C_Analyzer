@@ -1,4 +1,7 @@
 #pragma once
+
+#include "ast.h"
+
 #ifndef MAX_SYMBOL_NAME
 #define MAX_SYMBOL_NAME 255
 #endif // !MAX_SYMBOL_NAME
@@ -12,8 +15,8 @@
 
 /* If variable is local or global */
 enum IdentifierScope { 
-	Local = 0, 
-	Global 
+	LOCAL = 0, 
+	GLOBAL 
 };
 
 typedef struct symTableEntry {
@@ -32,7 +35,20 @@ typedef struct symTableEntry {
 
 }SymTableEntry;
 
-typedef struct node {
+typedef struct sNode {
 	SymTableEntry symTableEntry;
-	struct node** links;
+	struct sNode** links;
 }SymNode;
+
+SymNode* createDefaultSymTableNode(char* symbolName,
+	char* dataType,
+	int symbolType,
+	enum IdentifierScope symbolScope,
+	char* contextName,
+	unsigned int linksCount);
+
+SymNode* resizeSymTableNodeLinks(SymNode* nodeToResize, unsigned int newSize);
+
+void createSymTreeFromSyntax(Node* ast, SymNode* symTree, int level);
+
+void printSymTree(SymNode* symTree, int level);

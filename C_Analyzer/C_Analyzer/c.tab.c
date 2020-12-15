@@ -2960,7 +2960,7 @@ yyreduce:
 
   case 213: /* external_declaration: function_definition  */
 #line 542 "c.y"
-                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "FunctionDefinition"); }
+                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "Function Definition"); }
 #line 2965 "c.tab.c"
     break;
 
@@ -2972,25 +2972,25 @@ yyreduce:
 
   case 215: /* function_definition: declaration_specifiers declarator declaration_list compound_statement  */
 #line 547 "c.y"
-                                                                                  { (yyval.node) = createNodeFour((yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node), "CompleteFunctionDefinition"); }
+                                                                                  { (yyval.node) = createNodeFour((yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node), "Complete Function Definition"); }
 #line 2977 "c.tab.c"
     break;
 
   case 216: /* function_definition: declaration_specifiers declarator compound_statement  */
 #line 548 "c.y"
-                                                                                  { (yyval.node) = createNodeThree((yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node), "FunctionDefinitionWithoutDeclarationList"); }
+                                                                                  { (yyval.node) = createNodeThree((yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node), "Function DefinitionWithoutDeclarationList"); }
 #line 2983 "c.tab.c"
     break;
 
   case 217: /* function_definition: declarator declaration_list compound_statement  */
 #line 549 "c.y"
-                                                                                  { (yyval.node) = createNodeThree((yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node), "FunctionDefinitionWithoutSpecifiers"); }
+                                                                                  { (yyval.node) = createNodeThree((yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node), "Function DefinitionWithoutSpecifiers"); }
 #line 2989 "c.tab.c"
     break;
 
   case 218: /* function_definition: declarator compound_statement  */
 #line 550 "c.y"
-                                                                                  { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "FunctionDefinitionShort"); }
+                                                                                  { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "Function Definition Short"); }
 #line 2995 "c.tab.c"
     break;
 

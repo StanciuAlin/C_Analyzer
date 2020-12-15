@@ -539,15 +539,15 @@ translation_unit
 	;
 
 external_declaration
-	: function_definition								{ $$ = createNodeOne($1, "FunctionDefinition"); }														
+	: function_definition								{ $$ = createNodeOne($1, "Function Definition"); }														
 	| declaration										{ $$ = createNodeOne($1, "Declaration"); }								
 	;
 
 function_definition
-	: declaration_specifiers declarator declaration_list compound_statement   { $$ = createNodeFour($1, $2, $3, $4, "CompleteFunctionDefinition"); }        
-	| declaration_specifiers declarator compound_statement                    { $$ = createNodeThree($1, $2, $3, "FunctionDefinitionWithoutDeclarationList"); }       
-	| declarator declaration_list compound_statement                          { $$ = createNodeThree($1, $2, $3, "FunctionDefinitionWithoutSpecifiers"); }       
-	| declarator compound_statement                                           { $$ = createNodeTwo($1, $2, "FunctionDefinitionShort"); }       
+	: declaration_specifiers declarator declaration_list compound_statement   { $$ = createNodeFour($1, $2, $3, $4, "Complete Function Definition"); }        
+	| declaration_specifiers declarator compound_statement                    { $$ = createNodeThree($1, $2, $3, "Function DefinitionWithoutDeclarationList"); }       
+	| declarator declaration_list compound_statement                          { $$ = createNodeThree($1, $2, $3, "Function DefinitionWithoutSpecifiers"); }       
+	| declarator compound_statement                                           { $$ = createNodeTwo($1, $2, "Function Definition Short"); }       
 	;
 
 %%
