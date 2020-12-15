@@ -2,17 +2,18 @@
 //#include "symbols.h"
 #include <errno.h>
 //#include "ast.h"
-#include "SymbolTable.h"
+#include "SymbolTableList.h"
 
 extern FILE* yyin;
 
 extern int yylex(void);
 extern int yyparse(void);
 extern Node* astRoot;
+extern SymTableEntry* symTableEntryList;
 
 extern int yydebug;
 
-SymNode* symRoot = NULL;
+//SymNode* symRoot = NULL;
 
 int main()
 {
@@ -68,14 +69,18 @@ int main()
 
 		printAst(astRoot, 0);
 		
-		symRoot = createDefaultSymTableNode("Test",
+		/*symRoot = createDefaultSymTableListNode("Test",
 			"test",
 			0,
 			LOCAL,
 			"local",
-			3);
-		createSymTreeFromSyntax(astRoot, symRoot, 0);
-		printSymTree(symRoot, 0);
+			3);*/
+		symTableEntryList = malloc(sizeof(SymTableEntry) * 1000);
+		/*createSymTreeFromSyntax(astRoot, symRoot, 0);
+		printSymTree(symRoot, 0);*/
+		createSymTreeFromSyntaxList(astRoot, 0);
+		printSymNodeList();
+		//printSymTree();
 		fclose(yyin);
 	}
 	else

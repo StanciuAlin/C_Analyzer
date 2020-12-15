@@ -115,7 +115,7 @@ void createSymTreeFromSyntax(Node* ast, SymNode* symTree, int level)
 		for (idx = 0; idx < numLinks; idx++)
 		{
 
-			SymNode* retSymNode = createDefaultSymTableNode(symbolName, dataType, symbolType, symbolScope, contextName, numLinks);
+			SymNode* retSymNode = createDefaultSymTableListNode(symbolName, dataType, symbolType, symbolScope, contextName, numLinks);
 
 			symTree->links[idx] = retSymNode;
 

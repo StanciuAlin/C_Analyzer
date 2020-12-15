@@ -35,20 +35,5 @@ typedef struct symTableEntry {
 
 }SymTableEntry;
 
-typedef struct sNode {
-	SymTableEntry symTableEntry;
-	struct sNode** links;
-}SymNode;
-
-SymNode* createDefaultSymTableListNode(char* symbolName,
-	char* dataType,
-	int symbolType,
-	enum IdentifierScope symbolScope,
-	char* contextName,
-	unsigned int linksCount);
-
-SymNode* resizeSymTableNodeLinks(SymNode* nodeToResize, unsigned int newSize);
-
-void createSymTreeFromSyntax(Node* ast, SymNode* symTree, int level);
-
-void printSymTree(SymNode* symTree, int level);
+SymTableEntry* symTableEntryList;
+unsigned int lengthList;
