@@ -20,6 +20,7 @@ enum IdentifierScope {
 };
 
 typedef struct symTableEntry {
+	
 	/* symbol name */
 	char symbolName[MAX_SYMBOL_NAME];
 	/* type: int, const, ... */

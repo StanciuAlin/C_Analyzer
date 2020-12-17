@@ -46,63 +46,70 @@ void insertSymNodeInList(SymTableEntry symNode)
 
 void createSymTreeFromSyntaxList(Node* ast, int level)
 {
-	static int symbolType;
+	int flagInsert = 0;
 
-	char symbolName[MAX_SYMBOL_NAME] = "";
+	//static int symbolType;
+
+	/*char symbolName[MAX_SYMBOL_NAME] = "";
 	char dataType[MAX_DATATYPE_NAME] = "";
 	enum IdentifierScope symbolScope;
 	char contextName[MAX_SYMBOL_NAME] = "";
-	int numLinks = 0;
+	int numLinks = 0;*/
+
+	SymTableEntry retSymListNode;
 	
 	int idx = 0;
 	if (ast)
 	{
 		if (ast->type)
 		{
-			strcpy(symbolName, ast->type);
+			strcpy(retSymListNode.symbolName, ast->type);
 			if (strstr(ast->type, "Function")) {
 				/* is a function */
-				symbolType = 0;
+				retSymListNode.symbolType = 0;
+				flagInsert = 1;
 			}
 			if (strstr(ast->type, "TypeSpec")) {
 				/* is a variable */
-				symbolType = 0;
+				retSymListNode.symbolType = 1;
+				flagInsert = 1;
 			}
 		}
 		if (ast->extraData)
 		{
-			strcpy(dataType, ast->extraData);
+			strcpy(retSymListNode.dataType, ast->extraData);
 		}
-		if (!symbolType)
+		if (!retSymListNode.symbolType)
 		{
-			symbolScope = LOCAL;
-		}
-		else
-		{
-			symbolScope = GLOBAL;
-		}
-		if (symbolScope == LOCAL)
-		{
-			strcpy(contextName, "Local context");
+			retSymListNode.symbolScope = LOCAL;
 		}
 		else
 		{
-			strcpy(contextName, "Context not defined");
+			retSymListNode.symbolScope = GLOBAL;
+		}
+		if (retSymListNode.symbolScope == LOCAL)
+		{
+			strcpy(retSymListNode.contextName, "Local context");
+		}
+		else
+		{
+			strcpy(retSymListNode.contextName, "Context not defined - Global");
 		}
 
 
 		if (ast->numLinks)
 		{
-			numLinks = ast->numLinks;
+			retSymListNode.numLinks = ast->numLinks;
 		}
 
-		for (idx = 0; idx < numLinks; idx++)
+		if (flagInsert)
 		{
-
-			SymTableEntry retSymListNode = createDefaultSymTableListNode(symbolName, dataType, symbolType, symbolScope, contextName, numLinks);
+			//SymTableEntry retSymListNode = createDefaultSymTableListNode(symbolName, dataType, symbolType, symbolScope, contextName, numLinks);
 
 			insertSymNodeInList(retSymListNode);
-
+		}
+		for (idx = 0; idx < retSymListNode.numLinks; idx++)
+		{
 			createSymTreeFromSyntaxList(ast->links[idx], level + 1);
 		}
 
