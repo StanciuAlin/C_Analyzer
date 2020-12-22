@@ -16,7 +16,8 @@
 /* If variable is local or global */
 enum IdentifierScope { 
 	LOCAL = 0, 
-	GLOBAL 
+	GLOBAL = 1,
+	UNDEFINED_SCOPE
 };
 
 typedef struct symTableEntry {
@@ -38,3 +39,9 @@ typedef struct symTableEntry {
 
 SymTableEntry* symTableEntryList;
 unsigned int lengthList;
+
+void insertSymNodeInList(SymTableEntry symNode);
+
+void createSymListFromSyntaxTree(Node* ast, int level);
+
+void printSymNodeList();

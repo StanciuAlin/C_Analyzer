@@ -154,12 +154,10 @@ win_bison -d c.y</Command>
     <ClCompile Include="C_Analyzer.c" />
     <ClCompile Include="lex.yy.c" />
     <ClCompile Include="SymbolTableList.c" />
-    <ClCompile Include="SymbolTable.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ast.h" />
     <ClInclude Include="c.tab.h" />
-    <ClInclude Include="SymbolTable.h" />
     <ClInclude Include="SymbolTableList.h" />
   </ItemGroup>
   <ItemGroup>

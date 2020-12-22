@@ -12,6 +12,9 @@ IS			(u|U|l|L)*
 
 
 void count();
+void comment();
+void commentUniLine();
+
 %}
 
 %%
@@ -56,12 +59,12 @@ void count();
 "_Complex"      { count(); return(_COMPLEX); }
 "_Imaginary"    { count(); return(_IMAGINARY); }
 
-{L}({L}|{D})*		{ count(); return(check_type()); }
+{L}({L}|{D})*		{ count(); yylval.strings = strdup(yytext); return(check_type()); }
 
-0[xX]{H}+{IS}?		{ count(); return(CONSTANT); }
-0{D}+{IS}?		{ count(); return(CONSTANT); }
-{D}+{IS}?		{ count(); return(CONSTANT); }
-L?'(\\.|[^\\'])+'	{ count(); return(CONSTANT); }
+0[xX]{H}+{IS}?		{ count(); yylval.intVal = atoi(yytext); return(CONSTANT); }
+0{D}+{IS}?		{ count(); yylval.intVal = atoi(yytext); return(CONSTANT); }
+{D}+{IS}?		{ count(); yylval.intVal = atoi(yytext); return(CONSTANT); }
+L?'(\\.|[^\\'])+'	{ count(); yylval.intVal = atoi(yytext); return(CONSTANT); }
 
 {D}+{E}{FS}?		{ count(); return(CONSTANT); }
 {D}*"."{D}+({E})?{FS}?	{ count(); return(CONSTANT); }
@@ -128,7 +131,7 @@ yywrap()
 	return(1);
 }
 
-commentUniLine()
+void commentUniLine()
 {
 	char c, c1;
 
@@ -145,7 +148,7 @@ commentUniLine()
 //		putchar(c1);
 }
 
-comment()
+void comment()
 {
 	char c, c1;
 

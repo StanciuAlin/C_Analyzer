@@ -1694,1261 +1694,1261 @@ yyreduce:
     {
   case 2: /* primary_expression: IDENTIFIER  */
 #line 147 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("IDENTIFIER PrimaryExpr"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("PrimaryExpr", (yyvsp[0].strings), NULL); }
 #line 1699 "c.tab.c"
     break;
 
   case 3: /* primary_expression: CONSTANT  */
 #line 148 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("CONSTANT PrimaryExpr"); }
+                                                                                                                                        { (yyval.node) = createNodeLeafForConstant("PrimaryExpr", "CONSTANT", (yyvsp[0].intVal)); }
 #line 1705 "c.tab.c"
     break;
 
   case 4: /* primary_expression: STRING_LITERAL  */
 #line 149 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("STRING_LITERAL PrimaryExpr"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("PrimaryExpr", "STRING_LITERAL", NULL); }
 #line 1711 "c.tab.c"
     break;
 
   case 5: /* primary_expression: '(' expression ')'  */
 #line 150 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "Expression PrimaryExpr"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "PrimaryExpr", "STRING_LITERAL", "(expr)"); }
 #line 1717 "c.tab.c"
     break;
 
   case 6: /* postfix_expression: primary_expression  */
 #line 154 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "PrimaryExpr PostfixExpr"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "PostfixExpr", "PrimaryExpr", NULL); }
 #line 1723 "c.tab.c"
     break;
 
   case 7: /* postfix_expression: postfix_expression '[' expression ']'  */
 #line 155 "c.y"
-                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-3].node), (yyvsp[-1].node), "Expr PostfixExpr"); }
+                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-3].node), (yyvsp[-1].node), "PostfixExpr", "[expr]", NULL); }
 #line 1729 "c.tab.c"
     break;
 
   case 8: /* postfix_expression: postfix_expression '(' ')'  */
 #line 156 "c.y"
-                                                                                                                { (yyval.node) = createNodeOne((yyvsp[-2].node), "Empty PostfixExpr"); }
+                                                                                                                { (yyval.node) = createNodeOne((yyvsp[-2].node), "PostfixExpr", "Empty PostfixExpr", "()"); }
 #line 1735 "c.tab.c"
     break;
 
   case 9: /* postfix_expression: postfix_expression '(' argument_expression_list ')'  */
 #line 157 "c.y"
-                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-3].node), (yyvsp[-1].node), "ArgExprList PostfixExpr"); }
+                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-3].node), (yyvsp[-1].node), "PostfixExpr", "(ArgExprList)", NULL); }
 #line 1741 "c.tab.c"
     break;
 
   case 10: /* postfix_expression: postfix_expression '.' IDENTIFIER  */
 #line 158 "c.y"
-                                                                                                                { (yyval.node) = createNodeOne((yyvsp[-2].node), "IDENTIFIER PostfixExpr"); }
+                                                                                                                { (yyval.node) = createNodeOne((yyvsp[-2].node), "PostfixExpr", (yyvsp[0].strings), NULL); }
 #line 1747 "c.tab.c"
     break;
 
   case 11: /* postfix_expression: postfix_expression PTR_OP IDENTIFIER  */
 #line 159 "c.y"
-                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-2].node), "PTR_OP IDENTIFIER PostfixExpr"); }
+                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-2].node), "PostfixExpr", (yyvsp[0].strings), NULL); }
 #line 1753 "c.tab.c"
     break;
 
   case 12: /* postfix_expression: postfix_expression INC_OP  */
 #line 160 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "INC_OP PostfixExpr"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "PostfixExpr", "INC_OP", NULL); }
 #line 1759 "c.tab.c"
     break;
 
   case 13: /* postfix_expression: postfix_expression DEC_OP  */
 #line 161 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "DEC_OP PostfixExpr"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "PostfixExpr", "DEC_OP", NULL); }
 #line 1765 "c.tab.c"
     break;
 
   case 14: /* argument_expression_list: assignment_expression  */
 #line 165 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "AssignExpr ArgExprList"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "ArgExprList", "AssignExpr", NULL); }
 #line 1771 "c.tab.c"
     break;
 
   case 15: /* argument_expression_list: argument_expression_list ',' assignment_expression  */
 #line 166 "c.y"
-                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "AssignExpr ArgExprList"); }
+                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "ArgExprList", "ArgExprList,AssignExpr", "List"); }
 #line 1777 "c.tab.c"
     break;
 
   case 16: /* unary_expression: postfix_expression  */
 #line 170 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "PostfixExpr UnaryExpression"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "UnaryExpr", "PostfixExpr", NULL); }
 #line 1783 "c.tab.c"
     break;
 
   case 17: /* unary_expression: INC_OP unary_expression  */
 #line 171 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "INC_OP UnaryExpression"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "UnaryExpr", "INC_OP", NULL); }
 #line 1789 "c.tab.c"
     break;
 
   case 18: /* unary_expression: DEC_OP unary_expression  */
 #line 172 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "DEC_OP UnaryExpression"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "UnaryExpr", "DEC_OP", NULL); }
 #line 1795 "c.tab.c"
     break;
 
   case 19: /* unary_expression: unary_operator cast_expression  */
 #line 173 "c.y"
-                                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "CastExpr UnaryExpression"); }
+                                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "UnaryExpr", "CastExpr" ,"UnaryExpr-Cast"); }
 #line 1801 "c.tab.c"
     break;
 
   case 20: /* unary_expression: SIZEOF unary_expression  */
 #line 174 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "SIZEOF UnaryExpression"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "UnaryExpr", "SIZEOF", NULL); }
 #line 1807 "c.tab.c"
     break;
 
   case 21: /* unary_expression: SIZEOF '(' type_name ')'  */
 #line 175 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "SIZEOF (typename) UnaryExpression"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "UnaryExpr", "SIZEOF typename", "(typename)"); }
 #line 1813 "c.tab.c"
     break;
 
   case 22: /* unary_operator: '&'  */
 #line 179 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("& UnaryOperator"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("UnaryOperator", " &", NULL ); }
 #line 1819 "c.tab.c"
     break;
 
   case 23: /* unary_operator: '*'  */
 #line 180 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("* UnaryOperator"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("UnaryOperator", " *", NULL ); }
 #line 1825 "c.tab.c"
     break;
 
   case 24: /* unary_operator: '+'  */
 #line 181 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("+ UnaryOperator"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("UnaryOperator", " +", NULL ); }
 #line 1831 "c.tab.c"
     break;
 
   case 25: /* unary_operator: '-'  */
 #line 182 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("- UnaryOperator"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("UnaryOperator", " -", NULL ); }
 #line 1837 "c.tab.c"
     break;
 
   case 26: /* unary_operator: '~'  */
 #line 183 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("~ UnaryOperator"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("UnaryOperator", " ~", NULL ); }
 #line 1843 "c.tab.c"
     break;
 
   case 27: /* unary_operator: '!'  */
 #line 184 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("! UnaryOperator"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("UnaryOperator", " !", NULL ); }
 #line 1849 "c.tab.c"
     break;
 
   case 28: /* cast_expression: unary_expression  */
 #line 188 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "UnaryExpr CastExpr"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "CastExpr", "UnaryExpr", NULL); }
 #line 1855 "c.tab.c"
     break;
 
   case 29: /* cast_expression: '(' type_name ')' cast_expression  */
 #line 189 "c.y"
-                                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "(typename) CastExpr"); }
+                                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "CastExpr", "typename-CastExpr", NULL); }
 #line 1861 "c.tab.c"
     break;
 
   case 30: /* multiplicative_expression: cast_expression  */
 #line 193 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "CastExpr MultiplicativeExpr"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "MultiplicativeExpr", "CastExpr MultiplicativeExpr", NULL); }
 #line 1867 "c.tab.c"
     break;
 
   case 31: /* multiplicative_expression: multiplicative_expression '*' cast_expression  */
 #line 194 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "* MultiplicativeExpr"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "MultiplicativeExpr", " * ", "-cast"); }
 #line 1873 "c.tab.c"
     break;
 
   case 32: /* multiplicative_expression: multiplicative_expression '/' cast_expression  */
 #line 195 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "/ MultiplicativeExpr"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "MultiplicativeExpr", " / ", "-cast"); }
 #line 1879 "c.tab.c"
     break;
 
   case 33: /* multiplicative_expression: multiplicative_expression '%' cast_expression  */
 #line 196 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "% MultiplicativeExpr"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "MultiplicativeExpr", " % ", "-cast"); }
 #line 1885 "c.tab.c"
     break;
 
   case 34: /* additive_expression: multiplicative_expression  */
 #line 200 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "MultiplicativeExpr AdditiveExpr"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "AdditiveExpr", "MultiplicativeExpr", NULL); }
 #line 1891 "c.tab.c"
     break;
 
   case 35: /* additive_expression: additive_expression '+' multiplicative_expression  */
 #line 201 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "+ AdditiveExpr"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "AdditiveExpr", " + ", "MultiplicativeExpr"); }
 #line 1897 "c.tab.c"
     break;
 
   case 36: /* additive_expression: additive_expression '-' multiplicative_expression  */
 #line 202 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "- AdditiveExpr"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "AdditiveExpr", " - ", "MultiplicativeExpr"); }
 #line 1903 "c.tab.c"
     break;
 
   case 37: /* shift_expression: additive_expression  */
 #line 206 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "AdditiveExpr ShiftExpr"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "ShiftExpr", "AdditiveExpr", NULL); }
 #line 1909 "c.tab.c"
     break;
 
   case 38: /* shift_expression: shift_expression LEFT_OP additive_expression  */
 #line 207 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "LEFT_OP ShiftExpr"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "ShiftExpr", " LEFT_OP ", "AdditiveExpr"); }
 #line 1915 "c.tab.c"
     break;
 
   case 39: /* shift_expression: shift_expression RIGHT_OP additive_expression  */
 #line 208 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "RIGHT_OP ShiftExpr"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "ShiftExpr", " RIGHT_OP ", "AdditiveExpr"); }
 #line 1921 "c.tab.c"
     break;
 
   case 40: /* relational_expression: shift_expression  */
 #line 212 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "ShiftExpr RelationalExpr"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "RelationalExpr", "ShiftExpr", NULL); }
 #line 1927 "c.tab.c"
     break;
 
   case 41: /* relational_expression: relational_expression '<' shift_expression  */
 #line 213 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "< RelationalExpr"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "RelationalExpr", " < ", "ShiftExpr"); }
 #line 1933 "c.tab.c"
     break;
 
   case 42: /* relational_expression: relational_expression '>' shift_expression  */
 #line 214 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "> RelationalExpr"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "RelationalExpr", " > ", "ShiftExpr"); }
 #line 1939 "c.tab.c"
     break;
 
   case 43: /* relational_expression: relational_expression LE_OP shift_expression  */
 #line 215 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "LE_OP RelationalExpr"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "RelationalExpr", " LE_OP ", "ShiftExpr"); }
 #line 1945 "c.tab.c"
     break;
 
   case 44: /* relational_expression: relational_expression GE_OP shift_expression  */
 #line 216 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "GE_OP RelationalExpr"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "RelationalExpr", " GE_OP ", "ShiftExpr"); }
 #line 1951 "c.tab.c"
     break;
 
   case 45: /* equality_expression: relational_expression  */
 #line 220 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "RelationalExpr EqualityExpr"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "EqualityExpr", "RelationalExpr", NULL); }
 #line 1957 "c.tab.c"
     break;
 
   case 46: /* equality_expression: equality_expression EQ_OP relational_expression  */
 #line 221 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "EQ_OP EqualityExpr"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "EqualityExpr", " EQ_OP ", "RelationalExpr"); }
 #line 1963 "c.tab.c"
     break;
 
   case 47: /* equality_expression: equality_expression NE_OP relational_expression  */
 #line 222 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "NE_OP EqualityExpr"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "EqualityExpr", " NE_OP ", "RelationalExpr"); }
 #line 1969 "c.tab.c"
     break;
 
   case 48: /* and_expression: equality_expression  */
 #line 226 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "EqualityExpr AndExpr"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "AndExpr", "EqualityExpr", NULL); }
 #line 1975 "c.tab.c"
     break;
 
   case 49: /* and_expression: and_expression '&' equality_expression  */
 #line 227 "c.y"
-                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "& AndExpr"); }
+                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "AndExpr", " & ", "EqualityExpr"); }
 #line 1981 "c.tab.c"
     break;
 
   case 50: /* exclusive_or_expression: and_expression  */
 #line 231 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "AndExpr ExclusiveOrExpr"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "ExclusiveOrOp", "AndExpr", NULL); }
 #line 1987 "c.tab.c"
     break;
 
   case 51: /* exclusive_or_expression: exclusive_or_expression '^' and_expression  */
 #line 232 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "^ ExclusiveOrExpr"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "ExclusiveOrOp", " ^ ", "AndExpr"); }
 #line 1993 "c.tab.c"
     break;
 
   case 52: /* inclusive_or_expression: exclusive_or_expression  */
 #line 236 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "ExclusiveOrExpr InclusiveOrExpr"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "InclusiveOrOp", "ExclusiveOrOp", NULL); }
 #line 1999 "c.tab.c"
     break;
 
   case 53: /* inclusive_or_expression: inclusive_or_expression '|' exclusive_or_expression  */
 #line 237 "c.y"
-                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "| InclusiveOrExpr"); }
+                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "InclusiveOrOp", " | ", "ExclusiveOrOp"); }
 #line 2005 "c.tab.c"
     break;
 
   case 54: /* logical_and_expression: inclusive_or_expression  */
 #line 241 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "InclusiveOrExpr LogicalAndExpr"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "LogicalAndExpr", "InclusiveOrOp", NULL); }
 #line 2011 "c.tab.c"
     break;
 
   case 55: /* logical_and_expression: logical_and_expression AND_OP inclusive_or_expression  */
 #line 242 "c.y"
-                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "AND_OP LogicalAndExpr"); }
+                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "LogicalAndExpr", " AND_OP ", "InclusiveOrOp"); }
 #line 2017 "c.tab.c"
     break;
 
   case 56: /* logical_or_expression: logical_and_expression  */
 #line 246 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "LogicalAndExpr LogicalOrExpr"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "LogicalOrExpr", "LogicalAndExpr", NULL); }
 #line 2023 "c.tab.c"
     break;
 
   case 57: /* logical_or_expression: logical_or_expression OR_OP logical_and_expression  */
 #line 247 "c.y"
-                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "OR_OP LogicalOrExpr"); }
+                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "LogicalOrExpr", " OR_OP ", "LogicalAndExpr"); }
 #line 2029 "c.tab.c"
     break;
 
   case 58: /* conditional_expression: logical_or_expression  */
 #line 251 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "LogicalOrExpr CondExpr"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "CondExpr", "LogicalOrExpr", NULL); }
 #line 2035 "c.tab.c"
     break;
 
   case 59: /* conditional_expression: logical_or_expression '?' expression ':' conditional_expression  */
 #line 252 "c.y"
-                                                                                { (yyval.node) = createNodeThree((yyvsp[-4].node), (yyvsp[-2].node), (yyvsp[0].node), "? : CondExpr"); }
+                                                                                { (yyval.node) = createNodeThree((yyvsp[-4].node), (yyvsp[-2].node), (yyvsp[0].node), "CondExpr", " LogicalOrExpr ? Expr : CondExpr ", NULL); }
 #line 2041 "c.tab.c"
     break;
 
   case 60: /* assignment_expression: conditional_expression  */
 #line 256 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "CondExpr AssignExpr"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "AssignExpr", "CondExpr", NULL); }
 #line 2047 "c.tab.c"
     break;
 
   case 61: /* assignment_expression: unary_expression assignment_operator assignment_expression  */
 #line 257 "c.y"
-                                                                            { (yyval.node) = createNodeThree((yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node), "UnaryExpression = AssignExpr"); }
+                                                                            { (yyval.node) = createNodeThree((yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node), "AssignExpr", " UnaryExpr-AssignOp-AssignExpr ", NULL); }
 #line 2053 "c.tab.c"
     break;
 
   case 62: /* assignment_operator: '='  */
 #line 261 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("= AssignmentOp"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("AssignOp", " = ", NULL); }
 #line 2059 "c.tab.c"
     break;
 
   case 63: /* assignment_operator: MUL_ASSIGN  */
 #line 262 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("MUL_ASSIGN AssignmentOp"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("AssignOp", " MUL_ASSIGN ", NULL); }
 #line 2065 "c.tab.c"
     break;
 
   case 64: /* assignment_operator: DIV_ASSIGN  */
 #line 263 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("DIV_ASSIGN AssignmentOp"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("AssignOp", " DIV_ASSIGN ", NULL); }
 #line 2071 "c.tab.c"
     break;
 
   case 65: /* assignment_operator: MOD_ASSIGN  */
 #line 264 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("MOD_ASSIGN AssignmentOp"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("AssignOp", " MOD_ASSIGN ", NULL); }
 #line 2077 "c.tab.c"
     break;
 
   case 66: /* assignment_operator: ADD_ASSIGN  */
 #line 265 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("ADD_ASSIGN AssignmentOp"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("AssignOp", " ADD_ASSIGN ", NULL); }
 #line 2083 "c.tab.c"
     break;
 
   case 67: /* assignment_operator: SUB_ASSIGN  */
 #line 266 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("SUB_ASSIGN AssignmentOp"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("AssignOp", " SUB_ASSIGN ", NULL); }
 #line 2089 "c.tab.c"
     break;
 
   case 68: /* assignment_operator: LEFT_ASSIGN  */
 #line 267 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("LEFT_ASSIGN AssignmentOp"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("AssignOp", " LEFT_ASSIGN ", NULL); }
 #line 2095 "c.tab.c"
     break;
 
   case 69: /* assignment_operator: RIGHT_ASSIGN  */
 #line 268 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("RIGHT_ASSIGN AssignmentOp"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("AssignOp", " RIGHT_ASSIGN ", NULL); }
 #line 2101 "c.tab.c"
     break;
 
   case 70: /* assignment_operator: AND_ASSIGN  */
 #line 269 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("AND_ASSIGN AssignmentOp"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("AssignOp", " AND_ASSIGN ", NULL); }
 #line 2107 "c.tab.c"
     break;
 
   case 71: /* assignment_operator: XOR_ASSIGN  */
 #line 270 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("XOR_ASSIGN AssignmentOp"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("AssignOp", " XOR_ASSIGN ", NULL); }
 #line 2113 "c.tab.c"
     break;
 
   case 72: /* assignment_operator: OR_ASSIGN  */
 #line 271 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("OR_ASSIGN AssignmentOp"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("AssignOp", " OR_ASSIGN ", NULL); }
 #line 2119 "c.tab.c"
     break;
 
   case 73: /* expression: assignment_expression  */
 #line 275 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "AssignExpr - Expr"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "Expr", "AssignExpr", NULL); }
 #line 2125 "c.tab.c"
     break;
 
   case 74: /* expression: expression ',' assignment_expression  */
 #line 276 "c.y"
-                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), ", Expr"); }
+                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), ", Expr", "Expr , AssignExpr", NULL); }
 #line 2131 "c.tab.c"
     break;
 
   case 75: /* constant_expression: conditional_expression  */
 #line 280 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "CondExpr ConstExpr"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "ConstExpr", "CondExpr", NULL); }
 #line 2137 "c.tab.c"
     break;
 
   case 76: /* declaration: declaration_specifiers ';'  */
 #line 284 "c.y"
-                                                                                                                { (yyval.node) = createNodeOne((yyvsp[-1].node), "DeclSpecs Declaration"); }
+                                                                                                                { (yyval.node) = createNodeOne((yyvsp[-1].node), "Declaration", "DeclSpecs", ";"); }
 #line 2143 "c.tab.c"
     break;
 
   case 77: /* declaration: declaration_specifiers init_declarator_list ';'  */
 #line 285 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[-1].node), "InitDeclList Declaration"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[-1].node), "Declaration", "DeclSpecs InitDeclList", "List"); }
 #line 2149 "c.tab.c"
     break;
 
   case 78: /* declaration_specifiers: storage_class_specifier  */
 #line 289 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "StorageClassSpec DeclSpecs"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "DeclSpecs", "StorageClassSpec", NULL); }
 #line 2155 "c.tab.c"
     break;
 
   case 79: /* declaration_specifiers: storage_class_specifier declaration_specifiers  */
 #line 290 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "DeclSpecs"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "DeclSpecs", "StorageClassSpec DeclSpecs", NULL); }
 #line 2161 "c.tab.c"
     break;
 
   case 80: /* declaration_specifiers: type_specifier  */
 #line 291 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "TypeSpec DeclSpecs"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "DeclSpecs", "TypeSpec", NULL); }
 #line 2167 "c.tab.c"
     break;
 
   case 81: /* declaration_specifiers: type_specifier declaration_specifiers  */
 #line 292 "c.y"
-                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "DeclSpecs"); }
+                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "DeclSpecs", "TypeSpec DeclList", NULL); }
 #line 2173 "c.tab.c"
     break;
 
   case 82: /* declaration_specifiers: type_qualifier  */
 #line 293 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "TypeQual DeclSpecs"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "DeclSpecs", "TypeQual", NULL); }
 #line 2179 "c.tab.c"
     break;
 
   case 83: /* declaration_specifiers: type_qualifier declaration_specifiers  */
 #line 294 "c.y"
-                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "DeclSpecs"); }
+                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "DeclSpecs", "TypeQual DeclSpecs", NULL); }
 #line 2185 "c.tab.c"
     break;
 
   case 84: /* init_declarator_list: init_declarator  */
 #line 298 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "InitDeclarator InitDeclaratorList"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "InitDeclaratorList", "InitDeclarator", NULL); }
 #line 2191 "c.tab.c"
     break;
 
   case 85: /* init_declarator_list: init_declarator_list ',' init_declarator  */
 #line 299 "c.y"
-                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), ", InitDeclaratorList"); }
+                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "InitDeclaratorList" , "InitDecl", NULL); }
 #line 2197 "c.tab.c"
     break;
 
   case 86: /* init_declarator: declarator  */
 #line 303 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "Declarator InitDeclarator"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "Declarator", "Declarator", NULL); }
 #line 2203 "c.tab.c"
     break;
 
   case 87: /* init_declarator: declarator '=' initializer  */
 #line 304 "c.y"
-                                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "Initializer InitDeclarator"); }
+                                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "Declarator", "Decl = InitDecl", NULL); }
 #line 2209 "c.tab.c"
     break;
 
   case 88: /* storage_class_specifier: TYPEDEF  */
 #line 308 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("TYPEDEF StorageClassSpec"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("StorageClassSpec", " TYPEDEF ", NULL); }
 #line 2215 "c.tab.c"
     break;
 
   case 89: /* storage_class_specifier: EXTERN  */
 #line 309 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("EXTERN StorageClassSpec"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("StorageClassSpec", " EXTERN ", NULL); }
 #line 2221 "c.tab.c"
     break;
 
   case 90: /* storage_class_specifier: STATIC  */
 #line 310 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("STATIC StorageClassSpec"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("StorageClassSpec", " STATIC ", NULL); }
 #line 2227 "c.tab.c"
     break;
 
   case 91: /* storage_class_specifier: AUTO  */
 #line 311 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("AUTO StorageClassSpec"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("StorageClassSpec", " AUTO ", NULL); }
 #line 2233 "c.tab.c"
     break;
 
   case 92: /* storage_class_specifier: REGISTER  */
 #line 312 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("REGISTER StorageClassSpec"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("StorageClassSpec", " REGISTER ", NULL); }
 #line 2239 "c.tab.c"
     break;
 
   case 93: /* storage_class_specifier: RESTRICT  */
 #line 313 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("RESTRICT StorageClassSpec"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("StorageClassSpec", " RESTRICT ", NULL); }
 #line 2245 "c.tab.c"
     break;
 
   case 94: /* type_specifier: VOID  */
 #line 317 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("VOID TypeSpec"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("TypeSpec", " VOID ", NULL); }
 #line 2251 "c.tab.c"
     break;
 
   case 95: /* type_specifier: CHAR  */
 #line 318 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("CHAR TypeSpec"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("TypeSpec", " CHAR ", NULL); }
 #line 2257 "c.tab.c"
     break;
 
   case 96: /* type_specifier: SHORT  */
 #line 319 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("SHORT TypeSpec"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("TypeSpec", " SHORT ", NULL); }
 #line 2263 "c.tab.c"
     break;
 
   case 97: /* type_specifier: INT  */
 #line 320 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("INT TypeSpec"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("TypeSpec", " INT ", NULL); }
 #line 2269 "c.tab.c"
     break;
 
   case 98: /* type_specifier: LONG  */
 #line 321 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("LONG TypeSpec"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("TypeSpec", " LONG ", NULL); }
 #line 2275 "c.tab.c"
     break;
 
   case 99: /* type_specifier: FLOAT  */
 #line 322 "c.y"
-                                                                            { (yyval.node) = createNodeLeaf("FLOAT TypeSpec"); }
+                                                                            { (yyval.node) = createNodeLeaf("TypeSpec", " FLOAT ", NULL); }
 #line 2281 "c.tab.c"
     break;
 
   case 100: /* type_specifier: DOUBLE  */
 #line 323 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("DOUBLE TypeSpec"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("TypeSpec", " DOUBLE ", NULL); }
 #line 2287 "c.tab.c"
     break;
 
   case 101: /* type_specifier: SIGNED  */
 #line 324 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("SIGNED TypeSpec"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("TypeSpec", " SIGNED ", NULL); }
 #line 2293 "c.tab.c"
     break;
 
   case 102: /* type_specifier: UNSIGNED  */
 #line 325 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("UNSIGNED TypeSpec"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("TypeSpec", " UNSIGNED ", NULL); }
 #line 2299 "c.tab.c"
     break;
 
   case 103: /* type_specifier: _BOOL  */
 #line 326 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("_BOOL TypeSpec"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("TypeSpec", " _BOOL ", NULL); }
 #line 2305 "c.tab.c"
     break;
 
   case 104: /* type_specifier: _COMPLEX  */
 #line 327 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("_COMPLEX TypeSpec"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("TypeSpec", " _COMPLEX ", NULL); }
 #line 2311 "c.tab.c"
     break;
 
   case 105: /* type_specifier: _IMAGINARY  */
 #line 328 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("_IMAGINARY TypeSpec"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("TypeSpec", " _IMAGINARY ", NULL); }
 #line 2317 "c.tab.c"
     break;
 
   case 106: /* type_specifier: INLINE  */
 #line 329 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("INLINE TypeSpec"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("TypeSpec", " INLINE ", NULL); }
 #line 2323 "c.tab.c"
     break;
 
   case 107: /* type_specifier: struct_or_union_specifier  */
 #line 330 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "StructOrUnion TypeSpec"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "TypeSpec", " StructOrUnion ", NULL); }
 #line 2329 "c.tab.c"
     break;
 
   case 108: /* type_specifier: enum_specifier  */
 #line 331 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "Enum TypeSpec"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "TypeSpec", " Enum ", NULL); }
 #line 2335 "c.tab.c"
     break;
 
   case 109: /* type_specifier: TYPE_NAME  */
 #line 332 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("TYPE_NAME TypeSpec"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("TypeSpec", "TYPE_NAME", NULL); }
 #line 2341 "c.tab.c"
     break;
 
   case 110: /* struct_or_union_specifier: struct_or_union IDENTIFIER '{' struct_declaration_list '}'  */
 #line 336 "c.y"
-                                                                            { (yyval.node) = createNodeTwo((yyvsp[-4].node), (yyvsp[-1].node), "StructUnion - IDENTIFIER {StructDeclList}"); }
+                                                                            { (yyval.node) = createNodeTwo((yyvsp[-4].node), (yyvsp[-1].node), "StructOrUnionSpec", (yyvsp[-3].strings), "{ StructDeclList }"); }
 #line 2347 "c.tab.c"
     break;
 
   case 111: /* struct_or_union_specifier: struct_or_union '{' struct_declaration_list '}'  */
 #line 337 "c.y"
-                                                                            { (yyval.node) = createNodeTwo((yyvsp[-3].node), (yyvsp[-1].node), "StructUnion - {StructDeclList}"); }
+                                                                            { (yyval.node) = createNodeTwo((yyvsp[-3].node), (yyvsp[-1].node), "StructOrUnionSpec", "{ StructDeclList }", "{ }"); }
 #line 2353 "c.tab.c"
     break;
 
   case 112: /* struct_or_union_specifier: struct_or_union IDENTIFIER  */
 #line 338 "c.y"
-                                                                            { (yyval.node) = createNodeOne((yyvsp[-1].node), "StructUnion - IDENTIFIER"); }
+                                                                            { (yyval.node) = createNodeOne((yyvsp[-1].node), "StructOrUnionSpec", (yyvsp[0].strings), NULL); }
 #line 2359 "c.tab.c"
     break;
 
   case 113: /* struct_or_union: STRUCT  */
 #line 342 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("STRUCT"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("StructOrUnion", "STRUCT", NULL); }
 #line 2365 "c.tab.c"
     break;
 
   case 114: /* struct_or_union: UNION  */
 #line 343 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("UNION"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("StructOrUnion", "UNION", NULL); }
 #line 2371 "c.tab.c"
     break;
 
   case 115: /* struct_declaration_list: struct_declaration  */
 #line 347 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "StructDeclList - StructDecl"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "StructDeclList", " StructDecl ", NULL); }
 #line 2377 "c.tab.c"
     break;
 
   case 116: /* struct_declaration_list: struct_declaration_list struct_declaration  */
 #line 348 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "StructDeclList"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "StructDeclList", " StructDecl ", NULL); }
 #line 2383 "c.tab.c"
     break;
 
   case 117: /* struct_declaration: specifier_qualifier_list struct_declarator_list ';'  */
 #line 352 "c.y"
-                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[-1].node), "StructDecl - SpecQualifierList - StructDeclList"); }
+                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[-1].node), "StructDecl", " SpecQualList StructDeclList", ";"); }
 #line 2389 "c.tab.c"
     break;
 
   case 118: /* specifier_qualifier_list: type_specifier specifier_qualifier_list  */
 #line 356 "c.y"
-                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "SpecQualifierList - TypeSpec - SpecQualifierList"); }
+                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "SpecQualList", " TypeSpec ", "SpecQualifierList"); }
 #line 2395 "c.tab.c"
     break;
 
   case 119: /* specifier_qualifier_list: type_specifier  */
 #line 357 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "SpecQualifierList - TypeSpec"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "SpecQualList", " TypeSpec ", NULL); }
 #line 2401 "c.tab.c"
     break;
 
   case 120: /* specifier_qualifier_list: type_qualifier specifier_qualifier_list  */
 #line 358 "c.y"
-                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "SpecQualifierList - TypeQualifier - SpecQulifierList"); }
+                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "SpecQualList", " TypeQualifier ", "SpecQulifierList"); }
 #line 2407 "c.tab.c"
     break;
 
   case 121: /* specifier_qualifier_list: type_qualifier  */
 #line 359 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "SpecQualifierList - TypeQualifier"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "SpecQualList", " TypeQualifier ", NULL); }
 #line 2413 "c.tab.c"
     break;
 
   case 122: /* struct_declarator_list: struct_declarator  */
 #line 363 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "StructDeclList - StructDecl"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "StructDeclList", " StructDecl ", NULL); }
 #line 2419 "c.tab.c"
     break;
 
   case 123: /* struct_declarator_list: struct_declarator_list ',' struct_declarator  */
 #line 364 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "StructDeclList"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "StructDeclList", " , StructDecl ", NULL); }
 #line 2425 "c.tab.c"
     break;
 
   case 124: /* struct_declarator: declarator  */
 #line 368 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "StructDecl - Declarator"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), " StructDecl", " Declarator ", NULL); }
 #line 2431 "c.tab.c"
     break;
 
   case 125: /* struct_declarator: ':' constant_expression  */
 #line 369 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "StructDecl - ConstExpr"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), " StructDecl", "ConstExpr", ":"); }
 #line 2437 "c.tab.c"
     break;
 
   case 126: /* struct_declarator: declarator ':' constant_expression  */
 #line 370 "c.y"
-                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "StrucDecl - Decl:ConstExpr"); }
+                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "StrucDecl", " Declarator : ConstExpr ", NULL); }
 #line 2443 "c.tab.c"
     break;
 
   case 127: /* enum_specifier: ENUM '{' enumerator_list '}'  */
 #line 374 "c.y"
-                                                                                                            { (yyval.node) = createNodeOne((yyvsp[-1].node), "EnumSpecifier - ENUM {EnumeratorList}"); }
+                                                                                                            { (yyval.node) = createNodeOne((yyvsp[-1].node), "EnumSpecifier", " ENUM { EnumeratorList } ", "{ }"); }
 #line 2449 "c.tab.c"
     break;
 
   case 128: /* enum_specifier: ENUM IDENTIFIER '{' enumerator_list '}'  */
 #line 375 "c.y"
-                                                                            { (yyval.node) = createNodeOne((yyvsp[-1].node), "EnumSpecifier - ENUM IDENTIFIER {EnumeratorList}"); }
+                                                                            { (yyval.node) = createNodeOne((yyvsp[-1].node), "EnumSpecifier", (yyvsp[-3].strings), " ENUM IDENTIFIER { EnumeratorList } "); }
 #line 2455 "c.tab.c"
     break;
 
   case 129: /* enum_specifier: ENUM IDENTIFIER  */
 #line 376 "c.y"
-                                                                                                                            { (yyval.node) = createNodeLeaf("ENUM IDENTIFIER"); }
+                                                                                                                            { (yyval.node) = createNodeLeaf("EnumSpecifier", (yyvsp[0].strings), " ENUM IDENTIFIER "); }
 #line 2461 "c.tab.c"
     break;
 
   case 130: /* enumerator_list: enumerator  */
 #line 380 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "EnumList - Enumerator"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "EnumeratorList", " Enumerator ", NULL); }
 #line 2467 "c.tab.c"
     break;
 
   case 131: /* enumerator_list: enumerator_list ',' enumerator  */
 #line 381 "c.y"
-                                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "EnumList - List - Enumerator"); }
+                                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "EnumeratorList", " Enumerator", ","); }
 #line 2473 "c.tab.c"
     break;
 
   case 132: /* enumerator: IDENTIFIER  */
 #line 385 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("Enumerator - IDENTIFIER"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("Enumerator",  (yyvsp[0].strings), NULL); }
 #line 2479 "c.tab.c"
     break;
 
   case 133: /* enumerator: IDENTIFIER '=' constant_expression  */
 #line 386 "c.y"
-                                                                            { (yyval.node) = createNodeOne((yyvsp[0].node), "Enumerator - ConstExpr"); }
+                                                                            { (yyval.node) = createNodeOne((yyvsp[0].node), "Enumerator", (yyvsp[-2].strings), " IDENTIFIER = ConstExpr "); }
 #line 2485 "c.tab.c"
     break;
 
   case 134: /* type_qualifier: CONST  */
 #line 390 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("TypeQualifier - CONST"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("TypeQualifier", " CONST ", NULL); }
 #line 2491 "c.tab.c"
     break;
 
   case 135: /* type_qualifier: VOLATILE  */
 #line 391 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("TypeQualifier - VOLATILE"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("TypeQualifier", " VOLATILE ", NULL); }
 #line 2497 "c.tab.c"
     break;
 
   case 136: /* declarator: pointer direct_declarator  */
 #line 395 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "PointerDirectDeclarator"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "Declarator", "PointerDirectDeclarator", NULL); }
 #line 2503 "c.tab.c"
     break;
 
   case 137: /* declarator: direct_declarator  */
 #line 396 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "DirectDeclarator"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "Declarator", "DirectDeclarator", NULL); }
 #line 2509 "c.tab.c"
     break;
 
   case 138: /* direct_declarator: IDENTIFIER  */
 #line 400 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("DirectDecl - IDENTIFIER"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("DirectDeclarator", (yyvsp[0].strings), "IDENTIFIER"); }
 #line 2515 "c.tab.c"
     break;
 
   case 139: /* direct_declarator: '(' declarator ')'  */
 #line 401 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "DirectDecl - (Declarator)"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "DirectDeclarator", " (Declarator) ", "( d )"); }
 #line 2521 "c.tab.c"
     break;
 
   case 140: /* direct_declarator: direct_declarator '[' constant_expression ']'  */
 #line 402 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-3].node), (yyvsp[-1].node), "DirectDecl - [ConstExpr]"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-3].node), (yyvsp[-1].node), "DirectDeclarator", " DirectDecl [ConstExpr] ", "[ ]"); }
 #line 2527 "c.tab.c"
     break;
 
   case 141: /* direct_declarator: direct_declarator '[' ']'  */
 #line 403 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-2].node), "DirectDecl - Empty[]"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-2].node), "DirectDeclarator", " DirectDecl [] ", NULL); }
 #line 2533 "c.tab.c"
     break;
 
   case 142: /* direct_declarator: direct_declarator '(' parameter_type_list ')'  */
 #line 404 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-3].node), (yyvsp[-1].node), "DirectDecl - (ParamTypeList)"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-3].node), (yyvsp[-1].node), "DirectDeclarator", " DirectDecl (ParamTypeList) ", "( )"); }
 #line 2539 "c.tab.c"
     break;
 
   case 143: /* direct_declarator: direct_declarator '(' identifier_list ')'  */
 #line 405 "c.y"
-                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-3].node), (yyvsp[-1].node), "DirectDecl - (IdentifierList)"); }
+                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-3].node), (yyvsp[-1].node), "DirectDeclarator", " DirectDecl (IdentifierList) ", "( )"); }
 #line 2545 "c.tab.c"
     break;
 
   case 144: /* direct_declarator: direct_declarator '(' ')'  */
 #line 406 "c.y"
-                                                                                                                        { (yyval.node) = createNodeLeaf("DirectDecl - Empty()"); }
+                                                                                                                        { (yyval.node) = createNodeLeaf("DirectDeclarator", " DirectDecl () ", NULL); }
 #line 2551 "c.tab.c"
     break;
 
   case 145: /* pointer: '*'  */
 #line 410 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeLeaf("Pointer"); }
+                                                                                                                                        { (yyval.node) = createNodeLeaf("Pointer", " * ", NULL); }
 #line 2557 "c.tab.c"
     break;
 
   case 146: /* pointer: '*' pointer  */
 #line 411 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "Pointer"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "Pointer", " * Pointer ", NULL); }
 #line 2563 "c.tab.c"
     break;
 
   case 147: /* pointer: '*' type_qualifier_list  */
 #line 412 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "Pointer - TypeQualifierList"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "Pointer", " * TypeQualList ", NULL); }
 #line 2569 "c.tab.c"
     break;
 
   case 148: /* pointer: '*' type_qualifier_list pointer  */
 #line 413 "c.y"
-                                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "Pointer"); }
+                                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "Pointer", " * TypeQualList Pointer ", NULL); }
 #line 2575 "c.tab.c"
     break;
 
   case 149: /* type_qualifier_list: type_qualifier  */
 #line 417 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "TypeQualifier"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "TypeQualList", " TypeQual ", NULL); }
 #line 2581 "c.tab.c"
     break;
 
   case 150: /* type_qualifier_list: type_qualifier_list type_qualifier  */
 #line 418 "c.y"
-                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "TypeQualifierList"); }
+                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "TypeQualList", " TypeQual ", "List"); }
 #line 2587 "c.tab.c"
     break;
 
   case 151: /* parameter_type_list: parameter_list  */
 #line 423 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "ParamTypeList"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "ParamTypeList", " ParamList", NULL); }
 #line 2593 "c.tab.c"
     break;
 
   case 152: /* parameter_type_list: parameter_list ',' ELLIPSIS  */
 #line 424 "c.y"
-                                                                                                                { (yyval.node) = createNodeOne((yyvsp[-2].node), "ParamTypeList - ELLIPSIS"); }
+                                                                                                                { (yyval.node) = createNodeOne((yyvsp[-2].node), "ParamTypeList" ," ParamList , ELLIPSIS ", NULL); }
 #line 2599 "c.tab.c"
     break;
 
   case 153: /* parameter_list: parameter_declaration  */
 #line 428 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "ParamList - ParamDecl"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "ParamList", " ParamDecl ", NULL); }
 #line 2605 "c.tab.c"
     break;
 
   case 154: /* parameter_list: parameter_list ',' parameter_declaration  */
 #line 429 "c.y"
-                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "ParamList - ParamDecl"); }
+                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "ParamList", " , ParamDecl ", "List"); }
 #line 2611 "c.tab.c"
     break;
 
   case 155: /* parameter_declaration: declaration_specifiers declarator  */
 #line 433 "c.y"
-                                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "ParamDecl - Declarator"); }
+                                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "ParamDecl", " DeclSpec Declarator ", NULL); }
 #line 2617 "c.tab.c"
     break;
 
   case 156: /* parameter_declaration: declaration_specifiers abstract_declarator  */
 #line 434 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "ParamDecl - AbstrDecl"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "ParamDecl", " DeclSpec AbstrDecl ", NULL); }
 #line 2623 "c.tab.c"
     break;
 
   case 157: /* parameter_declaration: declaration_specifiers  */
 #line 435 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "ParamDecl - DeclSpecifiers"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "ParamDecl", " DeclSpecifiers ", NULL); }
 #line 2629 "c.tab.c"
     break;
 
   case 158: /* identifier_list: IDENTIFIER  */
 #line 439 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("IDENTIFIER"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("IdentifierList", (yyvsp[0].strings), NULL); }
 #line 2635 "c.tab.c"
     break;
 
   case 159: /* identifier_list: identifier_list ',' IDENTIFIER  */
 #line 440 "c.y"
-                                                                                                                { (yyval.node) = createNodeOne((yyvsp[-2].node), "IdentifierList - IDENTIFIER"); }
+                                                                                                                { (yyval.node) = createNodeOne((yyvsp[-2].node), "IdentifierList", (yyvsp[0].strings), "List"); }
 #line 2641 "c.tab.c"
     break;
 
   case 160: /* type_name: specifier_qualifier_list  */
 #line 444 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "TypeName - SpecQualifierList"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "TypeName", " SpecQualList ", NULL); }
 #line 2647 "c.tab.c"
     break;
 
   case 161: /* type_name: specifier_qualifier_list abstract_declarator  */
 #line 445 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "TypeName - AbstrDecl"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "TypeName", " SpecQualList AbstrDecl ", NULL); }
 #line 2653 "c.tab.c"
     break;
 
   case 162: /* abstract_declarator: pointer  */
 #line 449 "c.y"
-                                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "AbstrDecl - Pointer"); }
+                                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "AbstrDecl", " Pointer ", NULL); }
 #line 2659 "c.tab.c"
     break;
 
   case 163: /* abstract_declarator: direct_abstract_declarator  */
 #line 450 "c.y"
-                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "AbstrDecl - DirectAbstrDecl"); }
+                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "AbstrDecl", " DirectAbstrDecl ", NULL); }
 #line 2665 "c.tab.c"
     break;
 
   case 164: /* abstract_declarator: pointer direct_abstract_declarator  */
 #line 451 "c.y"
-                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "AbstrDecl - Pointer"); }
+                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "AbstrDecl", " Pointer DirectAbstrDecl ", NULL); }
 #line 2671 "c.tab.c"
     break;
 
   case 165: /* direct_abstract_declarator: '(' abstract_declarator ')'  */
 #line 455 "c.y"
-                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "DirectAbstrDecl - (AbstrDecl)"); }
+                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "DirectAbstrDecl", " (AbstrDecl) ", "( )"); }
 #line 2677 "c.tab.c"
     break;
 
   case 166: /* direct_abstract_declarator: '[' ']'  */
 #line 456 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("DirectAbstrDecl - Empty[]"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("DirectAbstrDecl", " [] ", NULL); }
 #line 2683 "c.tab.c"
     break;
 
   case 167: /* direct_abstract_declarator: '[' constant_expression ']'  */
 #line 457 "c.y"
-                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "DirectAbstrDecl - [ConstExpr]"); }
+                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "DirectAbstrDecl", " [ConstExpr] ", "[ ]"); }
 #line 2689 "c.tab.c"
     break;
 
   case 168: /* direct_abstract_declarator: direct_abstract_declarator '[' ']'  */
 #line 458 "c.y"
-                                                                                                { (yyval.node) = createNodeOne((yyvsp[-2].node), "DirectAbstrDecl - AbstrDecl[]"); }
+                                                                                                { (yyval.node) = createNodeOne((yyvsp[-2].node), "DirectAbstrDecl", " DirectAbstrDecl [] ", NULL); }
 #line 2695 "c.tab.c"
     break;
 
   case 169: /* direct_abstract_declarator: direct_abstract_declarator '[' constant_expression ']'  */
 #line 459 "c.y"
-                                                                                { (yyval.node) = createNodeTwo((yyvsp[-3].node), (yyvsp[-1].node), "DirectAbstrDecl - [ConstExpr]"); }
+                                                                                { (yyval.node) = createNodeTwo((yyvsp[-3].node), (yyvsp[-1].node), "DirectAbstrDecl", " DirectAbstrDecl [ConstExpr]", "[ ]"); }
 #line 2701 "c.tab.c"
     break;
 
   case 170: /* direct_abstract_declarator: '(' ')'  */
 #line 460 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("DirectAbstrDecl - Empty()"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("DirectAbstrDecl", " () ", NULL); }
 #line 2707 "c.tab.c"
     break;
 
   case 171: /* direct_abstract_declarator: '(' parameter_type_list ')'  */
 #line 461 "c.y"
-                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "DirectAbstrDecl - (ParamTypeList)"); }
+                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "DirectAbstrDecl", " (ParamTypeList) ", "( )"); }
 #line 2713 "c.tab.c"
     break;
 
   case 172: /* direct_abstract_declarator: direct_abstract_declarator '(' ')'  */
 #line 462 "c.y"
-                                                                                                { (yyval.node) = createNodeOne((yyvsp[-2].node), "DirectAbstrDecl - AbstrDecl()"); }
+                                                                                                { (yyval.node) = createNodeOne((yyvsp[-2].node), "DirectAbstrDecl", " DirectAbstrDecl () ", NULL); }
 #line 2719 "c.tab.c"
     break;
 
   case 173: /* direct_abstract_declarator: direct_abstract_declarator '(' parameter_type_list ')'  */
 #line 463 "c.y"
-                                                                                { (yyval.node) = createNodeTwo((yyvsp[-3].node), (yyvsp[-1].node), "DirectAbstrDecl - (ParamTypeList)"); }
+                                                                                { (yyval.node) = createNodeTwo((yyvsp[-3].node), (yyvsp[-1].node), "DirectAbstrDecl", " DirectAbstrDecl (ParamTypeList)", "( )"); }
 #line 2725 "c.tab.c"
     break;
 
   case 174: /* initializer: assignment_expression  */
 #line 467 "c.y"
-                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "Initializer - AssignExpr"); }
+                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "Initializer", " AssignExpr ", NULL); }
 #line 2731 "c.tab.c"
     break;
 
   case 175: /* initializer: '{' initializer_list '}'  */
 #line 468 "c.y"
-                                                                                                                { (yyval.node) = createNodeOne((yyvsp[-1].node), "Initializer - InitList"); }
+                                                                                                                { (yyval.node) = createNodeOne((yyvsp[-1].node), "Initializer", " { InitList } ", "{ }"); }
 #line 2737 "c.tab.c"
     break;
 
   case 176: /* initializer: '{' initializer_list ',' '}'  */
 #line 469 "c.y"
-                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-2].node), "Initializer - InitList"); }
+                                                                                                        { (yyval.node) = createNodeOne((yyvsp[-2].node), "Initializer", " { InitList , } ", "{ }"); }
 #line 2743 "c.tab.c"
     break;
 
   case 177: /* initializer_list: initializer  */
 #line 473 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "Initializer"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "InitializerList", " Initializer ", NULL); }
 #line 2749 "c.tab.c"
     break;
 
   case 178: /* initializer_list: initializer_list ',' initializer  */
 #line 474 "c.y"
-                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "InitializerList"); }
+                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "InitializerList", " , Initializer ", "List"); }
 #line 2755 "c.tab.c"
     break;
 
   case 179: /* statement: labeled_statement  */
 #line 478 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "Statement - labeled"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "Statement", " LabeledStatement ", NULL); }
 #line 2761 "c.tab.c"
     break;
 
   case 180: /* statement: compound_statement  */
 #line 479 "c.y"
-                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "Statement - compound"); }
+                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "Statement", " CompoundStatement ", NULL); }
 #line 2767 "c.tab.c"
     break;
 
   case 181: /* statement: expression_statement  */
 #line 480 "c.y"
-                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "Statement - expression"); }
+                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "Statement", " ExprStatement ", NULL); }
 #line 2773 "c.tab.c"
     break;
 
   case 182: /* statement: selection_statement  */
 #line 481 "c.y"
-                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "Statement - selection"); }
+                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "Statement", " SelectionStatement ", NULL); }
 #line 2779 "c.tab.c"
     break;
 
   case 183: /* statement: iteration_statement  */
 #line 482 "c.y"
-                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "Statement - iteration"); }
+                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "Statement", " IterationStatement ", NULL); }
 #line 2785 "c.tab.c"
     break;
 
   case 184: /* statement: jump_statement  */
 #line 483 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "Statement - jump"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "Statement", " JumpStatement ", NULL); }
 #line 2791 "c.tab.c"
     break;
 
   case 185: /* labeled_statement: IDENTIFIER ':' statement  */
 #line 487 "c.y"
-                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "LabeledSt - IDENTIFIER"); }
+                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "LabeledStatement", (yyvsp[-2].strings), " IDENTIFIER : Statement "); }
 #line 2797 "c.tab.c"
     break;
 
   case 186: /* labeled_statement: CASE constant_expression ':' statement  */
 #line 488 "c.y"
-                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "LabeledSt - CASE - ConstantExpr"); }
+                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "LabeledStatement", " CASE ConstantExpr : Statement", NULL); }
 #line 2803 "c.tab.c"
     break;
 
   case 187: /* labeled_statement: DEFAULT ':' statement  */
 #line 489 "c.y"
-                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "LabeledSt - DEFAULT"); }
+                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "LabeledStatement", " DEFAULT : Statement ", NULL); }
 #line 2809 "c.tab.c"
     break;
 
   case 188: /* compound_statement: '{' '}'  */
 #line 493 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("EmptyStatement"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("CompoundStatement", " {} ", NULL); }
 #line 2815 "c.tab.c"
     break;
 
   case 189: /* compound_statement: '{' statement_list '}'  */
 #line 494 "c.y"
-                                                                                                                { (yyval.node) = createNodeOne((yyvsp[-1].node), "CompoundStatement - StatementList"); }
+                                                                                                                { (yyval.node) = createNodeOne((yyvsp[-1].node), "CompoundStatement", " { StatementList } ", "{ }"); }
 #line 2821 "c.tab.c"
     break;
 
   case 190: /* compound_statement: '{' declaration_list '}'  */
 #line 495 "c.y"
-                                                                                                            { (yyval.node) = createNodeOne((yyvsp[-1].node), "CompoundStatement - DeclarationList"); }
+                                                                                                            { (yyval.node) = createNodeOne((yyvsp[-1].node), "CompoundStatement", " { DeclarationList } ", "{ }"); }
 #line 2827 "c.tab.c"
     break;
 
   case 191: /* compound_statement: '{' declaration_list statement_list '}'  */
 #line 496 "c.y"
-                                                                                            { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[-1].node), "CompoundStatement - DeclList - StatementList"); }
+                                                                                            { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[-1].node), "CompoundStatement", " { DeclList StatementList }", "{ }"); }
 #line 2833 "c.tab.c"
     break;
 
   case 192: /* declaration_list: declaration  */
 #line 500 "c.y"
-                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "DeclarationList"); }
+                                                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "DeclList", " Decl ", NULL); }
 #line 2839 "c.tab.c"
     break;
 
   case 193: /* declaration_list: declaration_list declaration  */
 #line 501 "c.y"
-                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "DeclarationList"); }
+                                                                                                        { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "DeclList", " Decl ", "List"); }
 #line 2845 "c.tab.c"
     break;
 
   case 194: /* statement_list: statement  */
 #line 505 "c.y"
-                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "StatementList-Statement"); }
+                                                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "StatementList", " Statement", NULL); }
 #line 2851 "c.tab.c"
     break;
 
   case 195: /* statement_list: statement_list statement  */
 #line 506 "c.y"
-                                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "StatementList"); }
+                                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "StatementList", "Statement", "List"); }
 #line 2857 "c.tab.c"
     break;
 
   case 196: /* expression_statement: ';'  */
 #line 510 "c.y"
-                                                                                                                                { (yyval.node) = createNodeLeaf("EmptyExpression"); }
+                                                                                                                                { (yyval.node) = createNodeLeaf("ExprStatement", "EmptyExpression", ";"); }
 #line 2863 "c.tab.c"
     break;
 
   case 197: /* expression_statement: expression ';'  */
 #line 511 "c.y"
-                                                                                                                    { (yyval.node) = createNodeOne((yyvsp[-1].node), "ExpressionStatement"); }
+                                                                                                                    { (yyval.node) = createNodeOne((yyvsp[-1].node), "ExprStatement", "Expr", ";"); }
 #line 2869 "c.tab.c"
     break;
 
   case 198: /* selection_statement: IF '(' expression ')' compound_statement ELSE compound_statement  */
 #line 515 "c.y"
-                                                                                        { (yyval.node) = createIfStatement((yyvsp[-4].node), (yyvsp[-2].node), (yyvsp[0].node)); }
+                                                                                        { (yyval.node) = createNodeThree((yyvsp[-4].node), (yyvsp[-2].node), (yyvsp[0].node), "SelectionStatement", " if then else ", "CompStatement"); }
 #line 2875 "c.tab.c"
     break;
 
   case 199: /* selection_statement: IF '(' expression ')' compound_statement  */
 #line 516 "c.y"
-                                                                                                                { (yyval.node) = createIfStatement((yyvsp[-2].node), (yyvsp[0].node), NULL); }
+                                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "SelectionStatement", " if ", "CompStatement"); }
 #line 2881 "c.tab.c"
     break;
 
   case 200: /* selection_statement: IF '(' expression ')' selection_statement  */
 #line 517 "c.y"
-                                                                                { (yyval.node) = createIfStatement((yyvsp[-2].node), (yyvsp[0].node), NULL); }
+                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "SelectionStatement", " if ", "SelectionStatement"); }
 #line 2887 "c.tab.c"
     break;
 
   case 201: /* selection_statement: SWITCH '(' expression ')' statement  */
 #line 518 "c.y"
-                                                                                                                { (yyval.node) = createSwitchStatement((yyvsp[-2].node), (yyvsp[0].node)); }
+                                                                                                                { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "SelectionStatement", " switch ", "Statement"); }
 #line 2893 "c.tab.c"
     break;
 
   case 202: /* iteration_statement: WHILE '(' expression ')' statement  */
 #line 522 "c.y"
-                                                                                         { (yyval.node) = createWhileStatement((yyvsp[-2].node), (yyvsp[0].node)); }
+                                                                                         { (yyval.node) = createNodeTwo((yyvsp[-2].node), (yyvsp[0].node), "IterationStatement", " while ", "Statement"); }
 #line 2899 "c.tab.c"
     break;
 
   case 203: /* iteration_statement: DO statement WHILE '(' expression ')' ';'  */
 #line 523 "c.y"
-                                                                                                 { (yyval.node) = createDoWhileStatement((yyvsp[-5].node), (yyvsp[-2].node)); }
+                                                                                                 { (yyval.node) = createNodeTwo((yyvsp[-5].node), (yyvsp[-2].node), "SelectionStatement", " do-while ", "Statement"); }
 #line 2905 "c.tab.c"
     break;
 
   case 204: /* iteration_statement: FOR '(' expression_statement expression_statement ')' statement  */
 #line 524 "c.y"
-                                                                                                 { (yyval.node) = createForStatement((yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[0].node), NULL); }
+                                                                                                 { (yyval.node) = createNodeThree((yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[0].node), "SelectionStatement", " for ", "For without step expr"); }
 #line 2911 "c.tab.c"
     break;
 
   case 205: /* iteration_statement: FOR '(' expression_statement expression_statement expression ')' statement  */
 #line 525 "c.y"
-                                                                                         { (yyval.node) = createForStatement((yyvsp[-4].node), (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[0].node)); }
+                                                                                         { (yyval.node) = createNodeFour((yyvsp[-4].node), (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[0].node), "SelectionStatement", "for", "Normal for loop"); }
 #line 2917 "c.tab.c"
     break;
 
   case 206: /* jump_statement: GOTO IDENTIFIER ';'  */
 #line 529 "c.y"
-                                                                                        { (yyval.node) = createNodeLeaf("GO TO IDENTIFIER"); }
+                                                                                        { (yyval.node) = createNodeLeaf("JumpStatement", (yyvsp[-1].strings), " GO TO "); }
 #line 2923 "c.tab.c"
     break;
 
   case 207: /* jump_statement: CONTINUE ';'  */
 #line 530 "c.y"
-                                                                                                { (yyval.node) = createNodeLeaf("CONTINUE"); }
+                                                                                                { (yyval.node) = createNodeLeaf("JumpStatement", " CONTINUE ", ";"); }
 #line 2929 "c.tab.c"
     break;
 
   case 208: /* jump_statement: BREAK ';'  */
 #line 531 "c.y"
-                                                                                                        { (yyval.node) = createNodeLeaf("BREAK"); }
+                                                                                                        { (yyval.node) = createNodeLeaf("JumpStatement", " BREAK ", ";"); }
 #line 2935 "c.tab.c"
     break;
 
   case 209: /* jump_statement: RETURN ';'  */
 #line 532 "c.y"
-                                                                                                { (yyval.node) = createNodeLeaf("RETURN"); }
+                                                                                                { (yyval.node) = createNodeLeaf("JumpStatement", " RETURN ", ";"); }
 #line 2941 "c.tab.c"
     break;
 
   case 210: /* jump_statement: RETURN expression ';'  */
 #line 533 "c.y"
-                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "RETURN"); }
+                                                                                        { (yyval.node) = createNodeOne((yyvsp[-1].node), "JumpStatement", " RETURN Expr ", ";"); }
 #line 2947 "c.tab.c"
     break;
 
   case 211: /* translation_unit: external_declaration  */
 #line 537 "c.y"
-                                                                                        { (yyval.node) = createTranslationUnitNode((yyvsp[0].node)); astRoot = (yyval.node);}
+                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "TransUnit", "Test", NULL); astRoot = (yyval.node);}
 #line 2953 "c.tab.c"
     break;
 
@@ -2960,37 +2960,37 @@ yyreduce:
 
   case 213: /* external_declaration: function_definition  */
 #line 542 "c.y"
-                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "Function Definition"); }
+                                                                                        { (yyval.node) = createNodeOne((yyvsp[0].node), "ExtDecl", " Function Definition ", NULL); }
 #line 2965 "c.tab.c"
     break;
 
   case 214: /* external_declaration: declaration  */
 #line 543 "c.y"
-                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "Declaration"); }
+                                                                                                { (yyval.node) = createNodeOne((yyvsp[0].node), "ExtDecl", " Declaration ", NULL); }
 #line 2971 "c.tab.c"
     break;
 
   case 215: /* function_definition: declaration_specifiers declarator declaration_list compound_statement  */
 #line 547 "c.y"
-                                                                                  { (yyval.node) = createNodeFour((yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node), "Complete Function Definition"); }
+                                                                                  { (yyval.node) = createNodeFour((yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node), "FunctionDefinition", " DeclSpec ", "Complete Function Definition"); }
 #line 2977 "c.tab.c"
     break;
 
   case 216: /* function_definition: declaration_specifiers declarator compound_statement  */
 #line 548 "c.y"
-                                                                                  { (yyval.node) = createNodeThree((yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node), "Function DefinitionWithoutDeclarationList"); }
+                                                                                  { (yyval.node) = createNodeThree((yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node), "FunctionDefinition", " DeclSpec ", "Function Definition Without Declaration List"); }
 #line 2983 "c.tab.c"
     break;
 
   case 217: /* function_definition: declarator declaration_list compound_statement  */
 #line 549 "c.y"
-                                                                                  { (yyval.node) = createNodeThree((yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node), "Function DefinitionWithoutSpecifiers"); }
+                                                                                  { (yyval.node) = createNodeThree((yyvsp[-2].node), (yyvsp[-1].node), (yyvsp[0].node), "FunctionDefinition", "Declarator", "Function Definition Without Specifiers"); }
 #line 2989 "c.tab.c"
     break;
 
   case 218: /* function_definition: declarator compound_statement  */
 #line 550 "c.y"
-                                                                                  { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "Function Definition Short"); }
+                                                                                  { (yyval.node) = createNodeTwo((yyvsp[-1].node), (yyvsp[0].node), "FunctionDefinition", "Declarator", "Function Definition Short"); }
 #line 2995 "c.tab.c"
     break;
 
@@ -3195,9 +3195,9 @@ yyreturn:
 extern char yytext[];
 extern int column;
 
-yyerror(s)
-char *s;
+int yyerror(char * s) 
 {
 	fflush(stdout);
 	printf("\n%*s\n%*s\n", column, "^", column, s);
+	return 0;
 }

@@ -1,15 +1,14 @@
-int ab = 120;
-enum enTest;
+double constVar = 120;
 
-int abcd(int a) {
-	int ab;
-	s = a | 4;
-	if( jhhjsd){}
+int write(float t) {
+	int i, x = 10;
+	float s = a | 4;
+	if( x ){}
 	break;
 	
 	for(i = 0; i < 100; i++)
 	{
-		a++;
+		x++;
 	}
-	a < b;
+	return x < s;
 }
