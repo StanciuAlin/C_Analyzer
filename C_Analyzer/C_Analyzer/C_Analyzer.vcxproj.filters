@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="C_Analyzer.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="lex.yy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -28,6 +25,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SymbolTableList.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnalyzer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,6 +41,9 @@
     <ClInclude Include="SymbolTableList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CAnalizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="c.lex">
@@ -50,6 +53,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="c.y">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="input_err.csrc">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

@@ -1,19 +1,95 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "SymbolTableList.h"
 
+void AnalyzeCode()
+{
+	for (int i = 0; i < lengthList; i++)
+	{
+		
+	}
+}
+
+char* getDataType(const char* symbolName, const char* context)
+{
+	for (int i = 0; i < lengthList; i++)
+	{
+		if (!strcmp(symTableEntryList[i].contextName, context))
+		{
+			if (!strcmp(symTableEntryList[i].symbolName, symbolName))
+			{
+				return symTableEntryList[i].dataType;
+			}
+		}
+	}
+}
+
+/* check if a variable is declared more than one time in the same context */
+int checkDoubleDecl(const char* symbolName, const char* context, int symbolType)
+{
+	int isDoubleDecl = 0;
+
+	for (int i = 0; i < lengthList; i++)
+	{
+		if (!strcmp(symTableEntryList[i].contextName, context))
+		{
+			if (!strcmp(symTableEntryList[i].symbolName, symbolName))
+			{
+				if (symTableEntryList[i].symbolType == 1 && symbolType == 1)
+				{
+					isDoubleDecl = 1;
+				}
+			}
+		}
+	}
+	if (isDoubleDecl)
+	{
+		return 1;
+	}
+	return 0;
+}
+
 void insertSymNodeInList(SymTableEntry symNode)
 {
-	symTableEntryList[lengthList++] = symNode;
+	char errorMessageRedeclaration[MAX_SYMBOL_NAME] = "Redeclaration of variable ";
+	if (!checkDoubleDecl(symNode.symbolName, symNode.contextName, symNode.symbolType))
+	{
+		symTableEntryList[lengthList++] = symNode;
+	}
+	else 
+	{
+		strcat(errorMessageRedeclaration, symNode.symbolName);
+		errorsList[lengthErrorsList].errorDescription = malloc(sizeof(char) * MAX_SYMBOL_NAME);
+		errorsList[lengthErrorsList].errorContext = malloc(sizeof(char) * MAX_SYMBOL_NAME);
+		if (errorsList[lengthErrorsList].errorDescription)
+		{
+			strcpy(errorsList[lengthErrorsList].errorDescription, errorMessageRedeclaration);
+			if (errorsList[lengthErrorsList].errorContext)
+			{
+				strcpy(errorsList[lengthErrorsList].errorContext, symNode.contextName);
+			}
+			errorsList[lengthErrorsList].errorCode = 1;
+			lengthErrorsList++;
+		}
+		/*printf("\nError 1: Redeclaration of variable %s in context %s and symType %d", symNode.symbolName, 
+			symNode.contextName,
+			symNode.symbolType);*/
+		//exit(0);
+	}
+	
 }
 
 void createSymListFromSyntaxTree(Node* ast, int level)
 {
+	char errorMessageNoDeclaration[MAX_SYMBOL_NAME] = "Implicit declaration of variable ";
 	int flagInsert = 0;
 	int idx = 0;
+
 	static char context[MAX_LEN_STRING] = "GLOBAL";
 	static char dataType[MAX_LEN_STRING] = "";
+	static int isExpr = 0;
 
 	SymTableEntry retSymListNode;
 	/* init the new list node */
@@ -32,33 +108,76 @@ void createSymListFromSyntaxTree(Node* ast, int level)
 			{
 				strcpy(dataType, ast->extraData.production);
 			}
+			if (strstr(ast->type, "Expr"))
+			{
+				isExpr = 1;
+			}
+
 			if (strstr(ast->type, "DirectDeclarator")
 				&& strstr(ast->extraData.extra, "( )"))
 			{
 				strcpy(retSymListNode.symbolName, ast->links[0]->extraData.production);
 
 				strcpy(context, ast->links[0]->extraData.production);
+
 				/* is a function */
 				retSymListNode.symbolType = 0;
 
 				flagInsert = 1;
+
+				strcpy(retSymListNode.contextName, context);
 			}
 			else if (strstr(ast->type, "DirectDeclarator") 
 				&& strstr(ast->extraData.extra, "IDENTIFIER"))
 			{
-				/* is a function */
+				/* is a variable */
 				retSymListNode.symbolType = 1;
+
 				strcpy(retSymListNode.symbolName, ast->extraData.production);
+
 				flagInsert = 1;
+
+				strcpy(retSymListNode.contextName, context);	
 			}
-			
-			
+
+			if (isExpr)
+			{
+				isExpr = 0;
+				char* ex = getDataType(retSymListNode.symbolName, retSymListNode.contextName);
+				//printf("+++++++++ %s +++++++++", );
+				if (strstr(ast->type, "PrimaryExpr"))
+				{
+					strcpy(retSymListNode.symbolName, ast->extraData.production);
+					strcpy(retSymListNode.contextName, context);
+				}
+				if (!checkDoubleDecl(retSymListNode.symbolName, retSymListNode.contextName, 1))
+				{
+					if (strcmp(retSymListNode.symbolName, ""))
+					{
+						strcat(errorMessageNoDeclaration, retSymListNode.symbolName);
+						errorsList[lengthErrorsList].errorDescription = malloc(sizeof(char) * MAX_SYMBOL_NAME);
+						errorsList[lengthErrorsList].errorContext = malloc(sizeof(char) * MAX_SYMBOL_NAME);
+						if (errorsList[lengthErrorsList].errorDescription)
+						{
+							strcpy(errorsList[lengthErrorsList].errorDescription, errorMessageNoDeclaration);
+							if (errorsList[lengthErrorsList].errorContext)
+							{
+								strcpy(errorsList[lengthErrorsList].errorContext, retSymListNode.contextName);
+							}
+							errorsList[lengthErrorsList].errorCode = 2;
+							lengthErrorsList++;
+						}
+					}
+				}
+			}
 		}
+
 		if (retSymListNode.symbolType == 0
 			|| retSymListNode.symbolType == 1)
 		{
 			strcpy(retSymListNode.dataType, dataType);
 		}
+
 		if (!retSymListNode.symbolType)
 		{
 			retSymListNode.symbolScope = LOCAL;	
@@ -67,13 +186,12 @@ void createSymListFromSyntaxTree(Node* ast, int level)
 		{
 			retSymListNode.symbolScope = GLOBAL;
 		}
-		strcpy(retSymListNode.contextName, context);
-
+		
 		if (ast->numLinks)
 		{
 			retSymListNode.numLinks = ast->numLinks;
 		}
-
+		
 		if (flagInsert)
 		{
 			insertSymNodeInList(retSymListNode);
@@ -130,5 +248,37 @@ void printSymNodeList()
 		"____________________",
 		"____________________",
 		"______________________________"
+	);
+}
+
+void printErrorsList()
+{
+	printf("%-11s %-70s %-30s\n",
+		"__________",
+		"_____________________________________________________________________",
+		"__________________________________________________"
+	);
+	printf("%-11s %-70s %-30s\n",
+		"Code",
+		"Description",
+		"Context"
+	);
+	printf("%-11s %-70s %-30s\n",
+		"__________",
+		"_____________________________________________________________________",
+		"__________________________________________________"
+	);
+
+	for (int i = 0; i < lengthErrorsList; i++)
+	{
+		printf("Error %-11d %-70s %-30s\n", errorsList[i].errorCode, 
+			errorsList[i].errorDescription,
+			errorsList[i].errorContext);
+	}
+
+	printf("%-11s %-70s %-30s\n",
+		"__________",
+		"_____________________________________________________________________",
+		"__________________________________________________"
 	);
 }

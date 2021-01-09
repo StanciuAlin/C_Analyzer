@@ -2,8 +2,8 @@ double constVar = 120;
 
 int write(float t) {
 	int i, x = 10;
-	float a;
-	int s = a | 4;
+	int i;
+	s = a | 4;
 	
 	if( x ){}
 	break;
@@ -18,5 +18,5 @@ int write(float t) {
 float func(int test, double test1) {
 	int z;
 	double x = 10;
-	float p = 10;
+	p = 10;
 }

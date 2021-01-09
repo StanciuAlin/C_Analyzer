@@ -151,19 +151,21 @@ win_bison -d c.y</Command>
   <ItemGroup>
     <ClCompile Include="ast.c" />
     <ClCompile Include="c.tab.c" />
-    <ClCompile Include="C_Analyzer.c" />
+    <ClCompile Include="CAnalyzer.c" />
     <ClCompile Include="lex.yy.c" />
     <ClCompile Include="SymbolTableList.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ast.h" />
     <ClInclude Include="c.tab.h" />
+    <ClInclude Include="CAnalizer.h" />
     <ClInclude Include="SymbolTableList.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="c.lex" />
     <None Include="c.y" />
     <None Include="input.csrc" />
+    <None Include="input_err.csrc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -10,6 +10,10 @@
 #define MAX_DATATYPE_NAME 127
 #endif // !MAX_DATATYPE_NAME
 
+#ifndef MAX_ERRORS
+#define MAX_ERRORS 20
+#endif // !MAX_ERRORS
+
 #define MAX_NODE_TYPE 50
 #define MAX_EXTRA_DATA 50
 
@@ -37,8 +41,20 @@ typedef struct symTableEntry {
 
 }SymTableEntry;
 
+typedef struct error
+{
+	int errorCode;
+	char* errorDescription;
+	char* errorContext;
+}Error;
+
 SymTableEntry* symTableEntryList;
 unsigned int lengthList;
+
+Error* errorsList;
+unsigned int lengthErrorsList;
+
+int checkDoubleDecl(const char* symbolName, const char* context, int symbolType);
 
 void insertSymNodeInList(SymTableEntry symNode);
 

@@ -4,6 +4,7 @@
 #include <errno.h>
 //#include "ast.h"
 #include "SymbolTableList.h"
+#include "CAnalizer.h"
 
 extern FILE* yyin;
 
@@ -46,7 +47,13 @@ int main()
 	printf("|                                                                                                                                  |\n");
 
 	yydebug = 1;
+
+#if INPUT_PROGRAM_FILE
+	yyin = fopen("input_err.csrc", "rt");
+#else
 	yyin = fopen("input.csrc", "rt");
+#endif // INPUT_PROGRAM_FILE
+
 	if (yyin != NULL)
 	{
 		int result = yyparse();
@@ -71,8 +78,17 @@ int main()
 		printAst(astRoot, 0);
 
 		symTableEntryList = malloc(sizeof(SymTableEntry) * 1000);
+		errorsList = malloc(sizeof(Error));
+		
 		createSymListFromSyntaxTree(astRoot, 0);
-		printSymNodeList();
+		if (lengthErrorsList > 0)
+		{
+			printErrorsList();
+		}
+		else
+		{
+			printSymNodeList();
+		}
 		
 		fclose(yyin);
 	}
